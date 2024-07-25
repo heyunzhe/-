@@ -43,7 +43,11 @@ git config --global user.email "email@example.com"
 **注意**：当git无法自动合并分支时，就必须要解决冲突，解决完在合并，可以先用git status看一下哪个文件有问题然后cat 文件名看一下冲突点在哪，冲突的点会用:<<<<<<<,=======,>>>>>>>囊括起来，最后手动打开文件修改
 * 删除分支：git branch -d (分支名)
 * 查看分支合并情况：git log --graph --pretty=oneline --abbrev-commit
-
+* 暂存工作区：git stash 
+* 查看工作现场：git stash list
+* 恢复工作区：git stash apply【不删除stash】 git stash pop 【删除stash】
+* 将提交修改“复制”到当前分支：git cherry-pick(分支名)
+* 强行删除未合并的分支：git branch -D (分支名)
 -----------                           
 ## Markdown 使用
 * 网址：https://blog.csdn.net/qq_40818172/article/details/126260661
