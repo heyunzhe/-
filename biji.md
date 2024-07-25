@@ -95,5 +95,4 @@ sudo apt-get install openssh-server(安装)
 * tar：打包文件
 ----------
 
-测试一下能不能正常合并，并补充新修改的内容
 
