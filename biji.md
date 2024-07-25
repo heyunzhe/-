@@ -7,6 +7,8 @@ Linux命令行：https://github.com/jlevy/the-art-of-command-line/blob/master/RE
 
 -------------
 ## git
+**安装git**
+1.在linux上安装：先输入git，看系统有无git，没有git输入：sudo apt-get install git 安装 
 **安装完成后需要在命令行输入下方命令方可使用**
 git config --global user.name "Your Name"
 git config --global user.email "email@example.com"
@@ -23,8 +25,12 @@ git config --global user.email "email@example.com"
 * ~ reflog：记录每一次命令
 * ~ checkout -- 文件名：把文件在工作区的修改撤销
 * ~ reset HEAD 文件名：把暂存去的修改撤销
------------
+* 添加到远程库：需登录github。创建一个新仓库根据github所给提示在本地仓库下运行指令大约为：git remote add origin`https://github.com/heyunzhe/test.git` 
+没有ssh密钥无法添加进去需在终端输入：ssh-keygen -t rsa -b 4096 -C "电子邮件"（生成）。生成完后输入：cat ~/.ssh/id_rsa.pub 查看公钥，然后在github的设置里复制输入。
+* 提交到远程库：git push -u origin main(取决于远程仓库的分支名) (本地只要提交了就可以输入这个指令上传到github)
+-----------                           
 ## Markdown 使用
+* 网址：https://blog.csdn.net/qq_40818172/article/details/126260661
 * 1~6级标题：多少级跟多少个# 最后一个井号后面加空格
 * 加粗倾斜：用*和_ 位于文字两侧，倾斜一边一个，粗体一边两个，粗斜体一边三个
 * 引用：用>,可以嵌套>>、>>>使用 。效果如下
@@ -56,6 +62,7 @@ sudo apt-get install openssh-server(安装)
 
 -------------
 ## linux基本命令
+* 部分命令：https://blog.csdn.net/weixin_39665076/article/details/79095540
 * mkdir 名称：创建一个目录
 * touch 名称：创建一个文件
 * cd 名称：切换目录
