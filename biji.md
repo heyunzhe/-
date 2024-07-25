@@ -15,7 +15,7 @@ git config --global user.name "Your Name"
 git config --global user.email "email@example.com"
 **学习网站**：https://www.liaoxuefeng.com/wiki/896043488029600/897271968352576
 ### 2.基本命令用法
-* git init 目录名 ：把目录变成git可管理的仓库
+* git init 目录名 ：把目录变成git可管理的仓库 (想把当前目录变成git仓库不用加目录名)
 * ~ add 文件名：将文件添加到仓库
 * ~ commit -m "说明": 将文件提交到仓库 
 * ~ status ：仓库当前状态
@@ -53,14 +53,14 @@ git config --global user.email "email@example.com"
 >1
 >>2
 >>>3
-
+* 换行 `</br>`
 * 图片：可以直接复制图片粘贴 
-*   ![alt text](image-1.png)
+  ![alt text](image-1.png)
 * 无序列表：开头用*，+，-都行记得加个空格
 * 有序列表：开头使用个数字并加上.和空格
 * 分割线：空一行用 _ 或 * 三个以上都可以
 * 删除线：在文字前后添加俩~
-* 下划线：在文字收尾添加 `<U></U>`
+* 下划线：在文字首尾添加 `<U></U>`
 * 代码块:一行引用用反引号`引起来，多行首尾各用三个
 * 表格：|分隔单元格，-分隔表头和其他行。在-前添加：为左对齐，右为右对齐，都添加为居中。
 * 特殊符号：语法符号前加\可以显示符号本身 \*    
