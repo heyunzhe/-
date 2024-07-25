@@ -91,8 +91,8 @@ sudo apt-get install openssh-server(安装)
 * cp：复制文件
 * rm：删除文件
 * mv:移动文件
-* chomd：改变文件权限 【读(r)，写(w)，执行(x)】
+* chomd：改变文件权限 【读(r)，写(w)，执行(x)】。
 * tar：打包文件
 ----------
 
-测试
+测试一下能不能正常合并，并补充新修改的内容
