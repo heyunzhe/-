@@ -111,6 +111,18 @@ sudo apt-get install openssh-server(安装)
 * mv:移动文件
 * chomd：改变文件权限 【读(r)，写(w)，执行(x)】
 * tar：打包文件
+* wget：从网络上自动下载文件
 ----------
-
-
+## linux基本命令用法
+* 列出当前目录所有信息(比如：权限，所有者)：**ls -la 目录名**
+* 
+------
+## go语言学习
+* 网站：https://gitee.com/dopaminereceptor/over-golang/tree/master
+* 安装go
+win下载安装包下载完运行即可
+</br>linux上输入：wget https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz【下载压缩包】
+</br>解压：sudo tar zxvf go1.22.5.linux-amd64.tar.gz -C /usr/local/ 【注意：如果解压到的目录是root权限一定要加**sudo**不然解压不进去可以通过“**ls -la** 目录名” 查看】
+</br>配置：sudo vim /etc/profile 打开目录【不加sudo可能打开了无法编辑】 底下添加export GOROOT=/usr/local/go  export PATH=$PATH:$GOROOT/bin
+重启一下环境：source /etc/profile  应该就可以用了，可以使用go version 查询一下有无安装成功
+* 
