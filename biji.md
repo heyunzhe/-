@@ -11,9 +11,9 @@ Linux命令行：https://github.com/jlevy/the-art-of-command-line/blob/master/RE
 ### 1.安装git
 在linux上安装：先输入git，看系统有无git，没有git输入：sudo apt-get install git 安装 
 【**注意：安装完成后需要在命令行输入下方两条命令方可使用**】
-</br>git config --global user.name "Your Name"
-</br>git config --global user.email "email@example.com"
-</br> **学习网站**：https://www.liaoxuefeng.com/wiki/896043488029600/897271968352576
+1. git config --global user.name "Your Name"
+2. git config --global user.email "email@example.com"
+</br> 学习网站：https://www.liaoxuefeng.com/wiki/896043488029600/897271968352576
 ### 2.基本命令用法
 * git init 目录名 ：把目录变成git可管理的仓库 【想把当前目录变成git仓库不用加目录名】
 * git add 文件名：将文件添加到仓库
@@ -28,11 +28,10 @@ Linux命令行：https://github.com/jlevy/the-art-of-command-line/blob/master/RE
 * git reset HEAD 文件名：把暂存区的修改撤销
 ### 3.远程仓库
 * 添加到远程库：首先需登录github。创建一个新仓库根据github所给提示操作 
-  本地库进入仓库：git remote add origin https://github.com/heyunzhe/test.git 【根据官网上给的指令来，每个人不一样】
-  若分支名称不一样还需重命名当前分支：git branch -M main(M后面为修改的名字) 
+  本地库进入仓库：git remote add origin https://github.com/heyunzhe/test.git 【根据官网上给的指令来，每个人不一样若分支名称不一样还需重命名当前分支：git branch -M main(M后面为修改的名字)】
 </br>**注意**：没有ssh密钥将无法添加，需在终端输入：ssh-keygen -t rsa -b 4096 -C "电子邮件"。运行完后输入：cat ~/.ssh/id_rsa.pub 查看公钥，然后在github的设置里复制输入。【window上在你本地库的终端输入后会提示让你在浏览器上解决(我的是这样)，解决后密钥会发到邮箱上】
-* 提交到远程库：git push -u origin main(取决于远程仓库的分支名一般为main) (本地只要提交了就可以输入这个指令上传到github)
-* 删除远程库：git remote rm origin （其实就是断开和远程库的连接，这样就无法上传到远程库，真要物理删除自己官网上操作）
+* 提交到远程库：git push origin main(取决于远程仓库的分支名一般为main) 【本地只要提交了就可以输入这个指令上传到github】
+* 删除远程库：git remote rm origin 【其实就是断开和远程库的连接，这样就无法上传到远程库，真要物理删除自己官网上操作】
 * 克隆远程库： git clone git@github.com:(库主人的名字)/(库的名字).git
 ### 4.分支管理
 * 创建分支：git branch (分支名) 
@@ -113,16 +112,7 @@ sudo apt-get install openssh-server(安装)
 * tar：打包文件
 * wget：从网络上自动下载文件
 ----------
-## linux基本命令用法
+## linux命令用法
 * 列出当前目录所有信息(比如：权限，所有者)：**ls -la 目录名**
 * 
 ------
-## go语言学习
-* 网站：https://gitee.com/dopaminereceptor/over-golang/tree/master
-* 安装go
-win下载安装包下载完运行即可
-</br>linux上输入：wget https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz【下载压缩包】
-</br>解压：sudo tar zxvf go1.22.5.linux-amd64.tar.gz -C /usr/local/ 【注意：如果解压到的目录是root权限一定要加**sudo**不然解压不进去可以通过“**ls -la** 目录名” 查看】
-</br>配置：sudo vim /etc/profile 打开目录【不加sudo可能打开了无法编辑】 底下添加export GOROOT=/usr/local/go  export PATH=$PATH:$GOROOT/bin
-重启一下环境：source /etc/profile  应该就可以用了，可以使用go version 查询一下有无安装成功
-* 
