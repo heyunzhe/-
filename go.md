@@ -1,6 +1,7 @@
 # go语言学习
-* 学习网站：https://gitee.com/dopaminereceptor/over-golang/tree/master
-</br>https://studygolang.com/pkgdoc
+* 推荐网站：
+* https://gitee.com/dopaminereceptor/over-golang/tree/master
+* https://studygolang.com/pkgdoc
 * 官网：https://golang.org/dl/
 ## 安装go
 1. linux上输入：wget https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz【下载压缩包,可以在官网上找版本】
@@ -20,17 +21,37 @@
 7. 大括号为成对出现缺一不可
 8. 换行在行尾用，
 9. 变量不要重复定义
+10. 打印时用%v调用变量的时候，**记得用printf**而不是println
 ------
 ## 注释
 1. 单行注释：代码后加//输入注释 快捷键ctrl+/
-2. 多行注释：/* 注释内容 */  快捷键shift+alt+a
+2. 多行注释：/* 注释内容 */ 
 
 -----
+## 搭建一个简单的go程序
+package main //每个程序都有且仅有一个main包
+
+import "fmt"
+
+func main() { //主函数main只有一个
+	fmt.Println("Hello World!") //函数调用：包名.函数名
+}
+
+--------
 ## 关键字
+关键字就是有特殊含义的单词，又叫保留字，在go中有以下25个
 * const func import package type var 【用来声明各种代码元素】
 * chan interface map struct 【用做一些组合类型的字面表示中】
 * break case continue default else fallthrough for goto if range return select switch 【用在流程控制语句中】
 * defer go 【也可以看做流程控制关键字】 
+  
+## 预定标识符
+go中一共有以下36个预定标识符，包含基础数据类型和系统内嵌函数
+* append bool byte cap close complex complex64
+* complex128 unit16 copy false float32 float64
+* imag int int8 int16 uint32 int32 int64 iota 
+* len make new nil panic uint64 print println
+* real recover string ture uint uint8 uintprt
 
 --------
 ## 变量
@@ -118,7 +139,17 @@ var age int = 18
 
 -----
 ## 包
+### 导入包
 * 格式：import "包的名字" 
+* 位置：开头包声明语句下面
+* 多个包可以用空格包起来，一行一个包 如：
+import (
+        "fmt"
+        "unsafe"
+)
+* 导入外部包如：import "gocode/go11/test"
+注：需配置环境变量，在linux中一般是安装go的目录的src处，将go文件移动到src就可以调用，导入时可以省略/sre/前面的内容，只要后面的   
+**注**：导入外部包只有大写字母开头的才可以被调用
 ### fmt 
 * fmt.Println(内容) 输出
 * fmt.Printf(内容)表示格式化输出 如：fmt.Printf("a的类型是：%T", a) 把a的变量类型填充到%T上 
@@ -143,3 +174,54 @@ var age int = 18
 18. %X	表示为十六进制，使用A-F
 19. %U	表示为Unicode格式：U+1234，等价于"U+%04X"  
 * unsafe 【使用unsafe.Sizeof(变量名) 查询变量对应的字节数】
+  
+-------
+## 标识符
+* 变量，方法等只要是要起名的地方，那么那个名字就是标识符 如：var age = 18 其中age为标识符
+* 标识符可以由：数字，字母，下划线组成
+ps：也可以用中文但不推荐
+* 不能以数字开头，严格区分大小写，不能有空格，不能使用go中的保留关键字
+* 下划线_本身在go就是一个特殊的标识符，称为空标识符。可以代表任何其他的标识符，但是它对应的值会被忽略（比如：忽略某个返回值），所以仅能被作为占位符使用，不能单独作为标记使用 如：var _ int = 10 //报错 var _a int = 100 //可以
+* 变量名、函数名、常量名：采用驼峰法 就是单词按照大小写区分开 例如：var stuNameDetail string = "lili" 注：如果变量名、函数名、常量名首字母大写，则可以被其他的包访问，如果首字母小写，则只能在本包使用
+
+------
+## 运算符
+### 算数运算符：+，-，*，/，%，++，--
+* ps：算数运算符是对**数值类型**的变量进行运算 
+* 如：
+fmt.Println(10 / 3) = 3  //两个int类型数据运算结果一定为整数
+fmt.Println(10.0 / 3) = 3.33333... //浮点类型参与运算，结果为浮点类型
+// % 取模 等价公式： a%b=a-a/b*b 
+fmt.Println(10 % 3) // 10%3= 10-10/3*3 =1  
+// ++为自增操作,--为自减操作
+a++ 等同于 a = a + 1 | a--等同于 a = a - 1
+注：go语言中++，--操作非常简单，只能单独使用，不能参与到运算中，++，--只能在变量后面不能再变量前面如：++a **错误写法**
+### 赋值运算符：=，+=，-=，*=，/=,%=
+* ps:赋值运算符就是将某个运算后的值，赋给指定的变量
+* 例如：a += 20 等同于 a = a + 20 同理 a*= 20 等同于 a = a * 20 ...
+### 关系运算符：==，!=，>，<，>=，<=
+* ps:关系运算符常用在流程控制中，返回结果都是bool型，要么true，要么false
+* 例如：5==9 判断左右两边是否相等，相等返回true，不相等返回false 同理 5!=9 判断左右两边是否不相等，不相等返回true，相等返回false
+### 逻辑运算符：&&(与)，||(或)，!(非)
+* 例如：5==9 && 5!=9 返回false，两个表达式只要有一个不为true就为false
+* 5==9 || 5!=9 返回true，两个表达式只要有一个为true就返回true
+* !5==9 返回true，取相反的结果
+### 其他运算符：& *
+* &：取内存地址 例如：a = &age | a的值为变量age的存放地址
+* *：根据地址取值 例如：var ptr *int = &age | 首先需要定义一个变量存放地址，ptr = &age 但 *ptr = age(可以参考指针部分)
+### 注意！
+* **运算符有优先级但( )内的优先计算**
+
+------
+## 获取用户输入数据
+1. 方法1：使用Scanln 例如：
+var age int //定义
+fmt.Println("请输入学生的年龄: ") //提示信息
+fmt.Scanln(&age)//传入地址，如果不加&传入值，会无法输出
+fmt.Printf("学生的年龄为:%d,age）//有%d这种的输出都用**printf**
+运行程序键入18，输出结果为学生的年龄为：18
+**注意：** 输入数据时一定要与定义的类型匹配，不然无法输出值
+2. 方法2：使用Scanf 例如：
+fmt.Println("请输入学生的年龄,姓名，使用空格间隔")//提示信息
+fmt.Scanf("%d %s",&age,&name)//传入地址%d表十进制，%s表字符串
+fmt.Printf("学生的年龄为:%d,学生的姓名为:%s",age,name)//**输出这种用printf**
