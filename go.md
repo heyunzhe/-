@@ -112,7 +112,7 @@ ps:当转换的数据大于定义类型的实际存储范围时，会数据溢�
 * 转换为字符串 
 方法：	fmt.Sprintf("%参数",变量)
 ```golang
-    var n1 int = 10
+	var n1 int = 10
 	var n2 float32 = 3.14
 	var n3 bool
 	var n4 byte = 'a' //定义
@@ -131,7 +131,7 @@ ps:当转换的数据大于定义类型的实际存储范围时，会数据溢�
 _______
 ## 指针
 ```golang
-var age int = 18
+	var age int = 18
 	fmt.Println(&age) //&age = 0xc0000120d0 //&+变量可以输出变量的地址
 	var ptr *int = &age //定义一个名为ptr的指针变量 **ps**：指针接收的一定是一个地址值不要漏写&，此外变量定义什么类型 * 后就跟什么类型，当变量定义为int但 * 后面跟着float32 就会报错
 	//其类型为*int为指针类型（可以理解为指向int类型的指针，这里是指向age）
@@ -149,10 +149,12 @@ var age int = 18
 * 格式：import "包的名字" 
 * 位置：开头包声明语句下面
 * 多个包可以用空格包起来，一行一个包 如：
+```golang
 import (
         "fmt"
         "unsafe"
 )
+```
 * 导入外部包如：import "goproject/gocode/go11/test"
 注：需配置环境变量，在linux中一般是安装go的目录的src处，将go文件移动到src就可以调用，导入时可以省略/src/前面的内容，只要后面的   
 **注**：导入外部包只有大写字母开头的才可以被调用
