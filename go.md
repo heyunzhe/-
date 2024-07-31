@@ -29,6 +29,7 @@
 
 -----
 ## 搭建一个简单的go程序
+```golang
 package main //每个程序都有且仅有一个main包
 
 import "fmt"
@@ -36,7 +37,7 @@ import "fmt"
 func main() { //主函数main只有一个
 	fmt.Println("Hello World!") //函数调用：包名.函数名
 }
-
+```
 --------
 ## 关键字
 关键字就是有特殊含义的单词，又叫保留字，在go中有以下25个
@@ -96,6 +97,7 @@ abc</br>abc
 
 #### 数据类型转换
 * 数值类型转换
+```golang
 var n1 int = 100
 	//var n2 float32 = n1 无法自动转换会报错
 	fmt.Println(n1)
@@ -104,10 +106,12 @@ var n1 int = 100
 var n3 int64 = 888888
 	var n4 int8 = int8(n3) //将int64转换为int8编译不会错，但会数据溢出
 	fmt.Println(n4) //可以输出但输出结果为56
+```
 ps:当转换的数据大于定义类型的实际存储范围时，会数据溢出
 
 * 转换为字符串 
-方法：fmt.Sprintf("%参数",变量)
+方法：	fmt.Sprintf("%参数",变量)
+```golang
     var n1 int = 10
 	var n2 float32 = 3.14
 	var n3 bool
@@ -123,9 +127,10 @@ ps:当转换的数据大于定义类型的实际存储范围时，会数据溢�
 
 	var s4 string = fmt.Sprintf("%c", n4)//%c表示改值对应的unicode字符
 	fmt.Printf("%T s4 = %q \n", s4, s4)//输出string s4 = "a"
-
+```
 _______
 ## 指针
+```golang
 var age int = 18
 	fmt.Println(&age) //&age = 0xc0000120d0 //&+变量可以输出变量的地址
 	var ptr *int = &age //定义一个名为ptr的指针变量 **ps**：指针接收的一定是一个地址值不要漏写&，此外变量定义什么类型 * 后就跟什么类型，当变量定义为int但 * 后面跟着float32 就会报错
@@ -135,6 +140,7 @@ var age int = 18
     	*ptr = 20 //修改指针指向的值
 	fmt.Println(age)//输出20
 }
+```
 **ps：** **&**：取内存地址 </br> *：根据地址取值
 
 -----
@@ -147,8 +153,8 @@ import (
         "fmt"
         "unsafe"
 )
-* 导入外部包如：import "gocode/go11/test"
-注：需配置环境变量，在linux中一般是安装go的目录的src处，将go文件移动到src就可以调用，导入时可以省略/sre/前面的内容，只要后面的   
+* 导入外部包如：import "goproject/gocode/go11/test"
+注：需配置环境变量，在linux中一般是安装go的目录的src处，将go文件移动到src就可以调用，导入时可以省略/src/前面的内容，只要后面的   
 **注**：导入外部包只有大写字母开头的才可以被调用
 ### fmt 
 * fmt.Println(内容) 输出
@@ -189,11 +195,12 @@ ps：也可以用中文但不推荐
 ### 算数运算符：+，-，*，/，%，++，--
 * ps：算数运算符是对**数值类型**的变量进行运算 
 * 如：
+```golang
 fmt.Println(10 / 3) = 3  //两个int类型数据运算结果一定为整数
 fmt.Println(10.0 / 3) = 3.33333... //浮点类型参与运算，结果为浮点类型
 // % 取模 等价公式： a%b=a-a/b*b 
 fmt.Println(10 % 3) // 10%3= 10-10/3*3 =1  
-// ++为自增操作,--为自减操作
+```
 a++ 等同于 a = a + 1 | a--等同于 a = a - 1
 注：go语言中++，--操作非常简单，只能单独使用，不能参与到运算中，++，--只能在变量后面不能再变量前面如：++a **错误写法**
 ### 赋值运算符：=，+=，-=，*=，/=,%=
@@ -215,13 +222,17 @@ a++ 等同于 a = a + 1 | a--等同于 a = a - 1
 ------
 ## 获取用户输入数据
 1. 方法1：使用Scanln 例如：
+```golang
 var age int //定义
 fmt.Println("请输入学生的年龄: ") //提示信息
 fmt.Scanln(&age)//传入地址，如果不加&传入值，会无法输出
 fmt.Printf("学生的年龄为:%d,age）//有%d这种的输出都用**printf**
+```
 运行程序键入18，输出结果为学生的年龄为：18
 **注意：** 输入数据时一定要与定义的类型匹配，不然无法输出值
 2. 方法2：使用Scanf 例如：
+```golang
 fmt.Println("请输入学生的年龄,姓名，使用空格间隔")//提示信息
 fmt.Scanf("%d %s",&age,&name)//传入地址%d表十进制，%s表字符串
 fmt.Printf("学生的年龄为:%d,学生的姓名为:%s",age,name)//**输出这种用printf**
+```
