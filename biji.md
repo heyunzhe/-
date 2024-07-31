@@ -11,8 +11,10 @@ Linux命令行：https://github.com/jlevy/the-art-of-command-line/blob/master/RE
 ### 1.安装git
 在linux上安装：先输入git，看系统有无git，没有git输入：sudo apt-get install git 安装 
 【**注意：安装完成后需要在命令行输入下方两条命令方可使用**】
+```
 1. git config --global user.name "Your Name"
 2. git config --global user.email "email@example.com"
+```
 </br> 学习网站：https://www.liaoxuefeng.com/wiki/896043488029600/897271968352576
 ### 2.基本命令用法
 * git init 目录名 ：把目录变成git可管理的仓库 【想把当前目录变成git仓库不用加目录名】
