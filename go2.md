@@ -178,7 +178,7 @@ func test(nums ...int) {
 func main() {
 	test(8)//调用函数输出8
 	test(3)//同上输出3
-	test(6)//同上输出6
+	test(6,7,14)//输出6,输出7，输出14
 }
 ```
 ##### 数据类型模块
@@ -225,7 +225,7 @@ func shu(num int) {
 	fmt.Println(num)
 }
 func chu(a int, b float32, c func(int)) {// 可以定义func(int)类型
-	fmt.Println("OK")
+	fmt.Println("OK") 
 }
 func main() {
 	a := shu //定义a为shu
@@ -415,8 +415,227 @@ func main() {
 	fmt.Println(age)
 }
 ```
+##### 闭包
+* 概念：闭包就是一个函数和与其相关的引用环境组合的一个整体，例如：
+```golang
+func getSum() func(int) int {//返回值为一个函数，这个函数的参数是一个int类型的参数，返回值也行int类型
+	var sum int = 0
+	return func(num int) int { //返回一个匿名函数
+		sum = sum + num //求和
+		return sum //返回sum
+	}
+}
+func main() {
+	f := getSum()//调用函数
+	fmt.Println(f(1))//把1赋给num，sum=1
+	fmt.Println(f(2))//把2赋给num，由于上面将sum变成1了，这里结果sum=3
+}
+```
+ps：匿名函数中引用的那个变量会一直保存在内存中，可以一直使用
+**闭包的本质：**
+* 闭包本质依旧是一个匿名函数，只是这个函数引入外界的变量/参数
+* 匿名函数 + 引用的变量/参数 = 闭包
+**闭包的特点：**
+* 返回的是一个匿名函数，但是这个匿名函数引用到函数外的变量/参数，因此这个匿名函数就和变量/参数形成一个整体，构成闭包。
+* 闭包中使用的变量/参数会一直保存在内存中，所以会一直使用--》意味着闭包不可滥用（对内存消耗大）
+**闭包的作用：**
+* 不使用闭包的时候，我想包留的值，不可以反复使用
+* 闭包应用场景:闭包可以保留上次引用的某个值，我们传入一次就可以反复使用了
+#### 关键字
+##### defer关键字：
+概念：在函数中，程序员经常需要创建资源，为了在函数执行完毕后，及时的释放资源，Go的设计者提供defer关键字
+* 在Golang中，程序遇到defer关键字，不会立即执行defer后的语句，而是将defer后的语句压入下一个栈中，继续执行函数后面的语句，例如：
+```golang
+func main(){
+	fmt.Println(add(30,60))//4.最后一个输出
+}
+func add(num1 int,num2 int) int {
+	defer fmt.Println(num1)//3.第三个输出
+	defer fmt.Println(num2)//2.第二个输出
+//栈的特点是先进好后出，在这个函数执行完毕后，再从栈中取出语句开始执行
+	var sum int = num1 + num2
+	fmt.Println(sum)//1.最先输出
+	return sum
+}
+```
+* defer拓展，例如：
+```golang
+func main() {
+	fmt.Println(add(30, 60))//输出sum=260
+}
+func add(num1 int, num2 int) int {
+	defer fmt.Println(num1) //输出num1=30
+	defer fmt.Println(num2)//输出num2=60
+	num1 += 90
+	num2 += 80
+	var sum int = num1 + num2
+	fmt.Println(sum) //输出sum=260
+	return sum
+}
+```
+ps:遇到defer关键字，会将后面的代码存入栈中，也同时会将值拷贝进栈中，不会随着函数后面的变化而变化
+* defer应用场景：
+当你要关闭某个使用的资源，在使用的时候直接随手defer，因为defer有延迟机制（函数执行完毕再执行defer压入栈的语句），所以用完时随手写了关闭，比较省心，省事
+### 系统函数
+#### 字符串函数
+1. 统计字符串长度：len(str) 
+ps:使用内置函数不需要导包，可以直接用
+2. 字符串遍历：
+方法1.r:=[]rune(str) 例如：
+```golang
+r := []rune(str)
+for i := 0; i < len(r); i++ {
+	fmt.Printf("%c\n", r[i])
+}
+```
+方法2.for -range健值循环，例如：
+```golang
+for i, value := range str {
+	fmt.Printf("索引值为：%d，具体的值为：%c \n", i, value)
+}
+```
+注意：使用以下这两种方式需要导入**strconv**包才能使用
+
+1. 字符串转整数：n,err:= strconv.Atoi("66") 例如：
+```golang
+num1, _ := strconv.Atoi("6666")
+fmt.Printf("%T", num1) //输出int
+```
+2. 整数转字符串：str = strconv.ltoa(6887) 例如：
+```golang
+str1 := strconv.Itoa(88)
+fmt.Printf("%T", str)//输出string
+```
+**注意**：使用以下这几种方式的需要导入**strings**包才能使用
+1. 查找子串是否在指定字符串中，例如：
+```golang
+x := strings.Contains("goatoayes", "go")//判断go在不在前面的字符串中
+fmt.Println(x)//输出true
+```
+2. 统计一个字符串有几个指定子串，例如：
+```golang
+strings.Count("golango", "go")//判断go在前面的字符串出现了几次
+fmt.Println(y)//输出2
+```
+3. 不区分大小写的字符串比较,例如：
+```golang
+z := strings.EqualFold("hello", "HELLO")//判断是否相等
+fmt.Println(z)//输出ture
+```
+4. 返回子串在字符串中第一次出现的索引值，如果没有返回-1，例如：
+```golang
+p := strings.Index("golanggoto", "go")//判断go在前面的字符串中第一次出现的索引值
+fmt.Println(p)//输出0
+```
+5. 字符串的替换，例如：
+```golang
+a1 := strings.Replace("golanggotogorun", "go", "11", -1)//在前面的字符串中查找并替换go为11，-1表示全部替换
+fmt.Println(a1)//输出11lang11to11run
+a2 := strings.Replace("golanggotogorun", "go", "11", 2)//同上，2表示替换两个
+fmt.Println(a2)//输出11lang11togorun
+```
+6.  按照指定的某个字符，为分割标识，将一个字符串拆分成字符串数组，例如：
+```golang
+a3 := strings.Split("go-python-java", "-")//根据"-"切割
+fmt.Println(a3)//输出[go python java]
+```
+7.  将字符串的字母进行大小写转换，例如：
+```golang
+a5 := strings.ToLower("Go")//转换为小写
+fmt.Println(a5)//输出go
+a6 := strings.ToUpper("go")//转换为大写
+fmt.Println(a6)//输出GO
+```
+8.  将字符串左右两边的空格去掉，例如：
+```golang
+a7 := strings.TrimSpace("  go and java    ")
+fmt.Println(a7)//输出go and java
+```
+9.  将字符串左右两边指定的字符去掉，例如：
+```golang
+a8 := strings.Trim("--golang--", "-")
+fmt.Println(a8)//输出golang
+```
+10.  将字符串左边指定的字符去掉，例如：
+```golang
+a9 := strings.TrimLeft("--golang--", "-")
+fmt.Println(a9)//输出golang--
+```
+11.  将字符串右边指定的字符去掉，例如：
+```golang
+a10 := strings.TrimRight("--golang--", "-")
+fmt.Println(a10)//输出--golang
+```
+12.  判断字符串是否以指定的字符串开头，例如：
+```golang
+a11 := strings.HasPrefix("image.jpg", "image")
+fmt.Println(a11)//输出true
+```
+13.  判断字符串是否以指定的字符串结尾，例如：
+```golang
+a12 := strings.HasSuffix("image.jpg", "jpg")
+fmt.Println(a12)//输出true
+```
+
+#### 日期和时间函数
+注意：需要导入**time**包
+* 获取当前时间，调用Now函数，例如：
+```golang
+func main() {
+	now := time.Now()  //Now()返回值是一个结构体
+	fmt.Printf("%v ~~~ 对应的类型为：%T\n", now, now) //输出2024-08-01 13:18:28.006164325 +0800 CST m=+0.000041700 ~~~ 对应的类型为：time.Time
+	fmt.Printf("年：%v \n", now.Year())//输出当前年份
+	fmt.Printf("月：%v \n", now.Month())//输出当前月份（英文显示）
+	fmt.Printf("月：%v \n", int(now.Month()))//输出当前月份
+	fmt.Printf("日：%v \n", now.Day())//输出当前日期
+	fmt.Printf("时：%v \n", now.Hour())//小时
+	fmt.Printf("分：%v \n", now.Minute())//分钟
+	fmt.Printf("秒：%v \n", now.Second())//秒
+}
+```
+* 日期的格式化
+1. 将日期以年月日时分秒按照格式输出为字符串，例如：
+```golang
+// Printf将字符穿直接输出
+fmt.Printf("当前年月日:%d-%d-%d 时分秒：%d:%d:%d  \n", now.Year(), now.Month(),
+	now.Day(), now.Hour(), now.Minute(), now.Second())
+//Sprintf可以得到这个字符串，以便后续使用
+datestr := fmt.Sprintf("当前年月日:%d-%d-%d 时分秒:%d:%d:%d  \n", now.Year(), 	now.Month(),now.Day(), now.Hour(), now.Minute(), now.Second())
+fmt.Println(datestr)
+```
+2.按照指定格式输出，例如：
+```golang
+//这个参数字符串的各个数字必须固定，必须这样写
+datestr2 := now.Format("2006/01/02 15/04/05")
+fmt.Println(datestr2)
+//可以选择任意组合，但数字不能变
+datestr3 := now.Format("2006 15:04")
+fmt.Println(datestr3)
+```
+#### 内置函数
+* 概念：Golang设计者为了编程方便，提供了一些函数，这些函数不用导包可以直接使用，我们称为Go的内置函数/内建函数
+* 内置函数存放的位置在builtin包下
+* 常用函数
+1. len函数：统计字符串长度，按字节进行统计，例如：
+```golang
+func main() {
+	var str string = "golang"
+	fmt.Println(len(str))//输出结果为6
+}
+```
+2. new函数：分配内存，主要用来分配值类型（int、float、bool、string、数组和结构体struct）,例如：
+```golang
+func main() {
+	num := new(int)
+	fmt.Printf("num的类型是：%T，num的值是：%v，num的地址：%v,num指针指向的值是：%v",num, num, &num, *num)
+}
+```
+输出结果为：num的类型是：*int，num的值是：0xc0000120d8，num的地址：0xc000048028,num指针指向的值是：0 
+说明：num是一个指针变量，指针里存放的就是num的值，但指针本身也有一个内存地址，所以num的地址就是他的储存地址，指针指向的值就是num的值所以为0
+
+3. make函数：分配内存，主要用来分配引用类型（指针、slice切片、map、管道chan、interface等）
 ------
-### 拓展：
+### 临时拓展：
 1. 从键盘上输入一个数
 格式：
 ```golang
@@ -424,4 +643,3 @@ var x int
 fmt.Scanln(&x)//方法1
 fmt.Scanf("%d",&x)//方法2
 ```
-2. len(str):可以得出字符串长度
