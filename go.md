@@ -160,7 +160,8 @@ import (
 **注**：导入外部包只有大写字母开头的才可以被调用
 ### fmt 
 * fmt.Println(内容) 输出
-* fmt.Printf(内容)表示格式化输出 如：fmt.Printf("a的类型是：%T", a) 把a的变量类型填充到%T上 
+* fmt.Printf(内容)表示格式化输出，如：fmt.Printf("a的类型是：%T", a) 把a的变量类型填充到%T上 
+* 转换为字符串：fmt.Sprintf("%参数",变量)
 </br>其常用格式输出有以下：
 1. %%	%字面量
 2. %b	二进制整数值，基数为2，或者是一个科学记数法表示的指数为2的浮点数
@@ -182,7 +183,27 @@ import (
 18. %X	表示为十六进制，使用A-F
 19. %U	表示为Unicode格式：U+1234，等价于"U+%04X"  
 * unsafe 【使用unsafe.Sizeof(变量名) 查询变量对应的字节数】
-  
+
+### strings
+* 查找子串是否在指定字符串中：strings.Contains()
+* 统计一个字符串有几个指定子串：strings.Count()
+* 不区分大小写的字符串比较：strings.EqualFold()
+* 返回子串在字符串中第一次出现的索引值，没有返回-1：strings.Index()
+* 字符串的替换，例如：strings.Replace()
+* 指定一个字符为分割标识，将一个字符串拆分成字符串数组：strings.Split()
+* 将字符串的字母进行大小写转换：
+1. 转小写strings.ToLower()
+2. 转大写strings.ToUpper()
+* 将字符串左右两边的空格去掉：strings.TrimSpace()
+* 将字符串左右两边指定的字符去掉：strings.Trim()
+* 将字符串左边指定的字符去掉：strings.TrimLeft()
+* 将字符串右边指定的字符去掉：strings.TrimRight()
+* 判断字符串是否以指定的字符串开头：strings.HasPrefix()
+* 判断字符串是否以指定的字符串结尾：strings.HasSuffix()
+
+### strconv
+* 字符串转整数：n,_:= strconv.Atoi("66") 
+* 整数转字符串：str = strconv.ltoa(6887)
 -------
 ## 标识符
 * 变量，方法等只要是要起名的地方，那么那个名字就是标识符 如：var age = 18 其中age为标识符
