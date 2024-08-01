@@ -432,13 +432,13 @@ func main() {
 #### 闭包
 * 概念：闭包就是一个函数和与其相关的引用环境组合的一个整体，例如：
 ```golang
-func getSum() func(int) int {//返回值为一个函数，这个函数的参数是一个int类型的参数，返回值也行int类型
+func getSum() func(int) int {//返回值为一个函数，这个函数的参数是一个int类型的参数，返回值也是int类型
 	var sum int = 0
 	return func(num int) int { //返回一个匿名函数
 		sum = sum + num //求和
 		return sum //返回sum
 	}
-}
+}//闭包：返回的匿名函数+匿名函数以外的变量num
 func main() {
 	f := getSum()//调用函数
 	fmt.Println(f(1))//把1赋给num，sum=1
@@ -453,13 +453,13 @@ ps：匿名函数中引用的那个变量会一直保存在内存中，可以一
 * 返回的是一个匿名函数，但是这个匿名函数引用到函数外的变量/参数，因此这个匿名函数就和变量/参数形成一个整体，构成闭包。
 * 闭包中使用的变量/参数会一直保存在内存中，所以会一直使用--》意味着闭包不可滥用（对内存消耗大）
 **闭包的作用：**
-* 不使用闭包的时候，我想包留的值，不可以反复使用
+* 不使用闭包的时候，我想保留的值，不可以反复使用
 * 闭包应用场景:闭包可以保留上次引用的某个值，我们传入一次就可以反复使用了
 
 --------
 ### 关键字
 #### defer关键字：
-概念：在函数中，程序员经常需要创建资源，为了在函数执行完毕后，及时的释放资源，Go的设计者提供defer关键字
+* 概念：在函数中，程序员经常需要创建资源，为了在函数执行完毕后，及时的释放资源，Go的设计者提供defer关键字
 * 在Golang中，程序遇到defer关键字，不会立即执行defer后的语句，而是将defer后的语句压入下一个栈中，继续执行函数后面的语句，例如：
 ```golang
 func main(){
@@ -468,7 +468,7 @@ func main(){
 func add(num1 int,num2 int) int {
 	defer fmt.Println(num1)//3.第三个输出
 	defer fmt.Println(num2)//2.第二个输出
-//栈的特点是先进好后出，在这个函数执行完毕后，再从栈中取出语句开始执行
+//栈的特点是先进后出，在这个函数执行完毕后，再从栈中取出语句开始执行
 	var sum int = num1 + num2
 	fmt.Println(sum)//1.最先输出
 	return sum
@@ -501,6 +501,7 @@ ps:使用内置函数不需要导包，可以直接用
 2. 字符串遍历：
 方法1.r:=[]rune(str) 例如：
 ```golang
+var str string = "abcd呵呵"
 r := []rune(str)
 for i := 0; i < len(r); i++ {
 	fmt.Printf("%c\n", r[i])
@@ -508,22 +509,24 @@ for i := 0; i < len(r); i++ {
 ```
 方法2.for -range健值循环，例如：
 ```golang
+var str string = "abcd呵呵"
 for i, value := range str {
 	fmt.Printf("索引值为：%d，具体的值为：%c \n", i, value)
 }
 ```
+-------
 注意：使用以下这两种方式需要导入**strconv**包才能使用
-
 1. 字符串转整数：n,err:= strconv.Atoi("66") 例如：
 ```golang
 num1, _ := strconv.Atoi("6666")
 fmt.Printf("%T", num1) //输出int
 ```
-2. 整数转字符串：str = strconv.ltoa(6887) 例如：
+1. 整数转字符串：str = strconv.ltoa(6887) 例如：
 ```golang
 str1 := strconv.Itoa(88)
 fmt.Printf("%T", str)//输出string
 ```
+--------
 **注意**：使用以下这几种方式的需要导入**strings**包才能使用
 1. 查找子串是否在指定字符串中，例如：
 ```golang
@@ -532,7 +535,7 @@ fmt.Println(x)//输出true
 ```
 2. 统计一个字符串有几个指定子串，例如：
 ```golang
-strings.Count("golango", "go")//判断go在前面的字符串出现了几次
+y := strings.Count("golango", "go")//判断go在前面的字符串出现了几次
 fmt.Println(y)//输出2
 ```
 3. 不区分大小写的字符串比较,例如：
@@ -574,22 +577,22 @@ fmt.Println(a7)//输出go and java
 a8 := strings.Trim("--golang--", "-")
 fmt.Println(a8)//输出golang
 ```
-10.  将字符串左边指定的字符去掉，例如：
+10.   将字符串左边指定的字符去掉，例如：
 ```golang
 a9 := strings.TrimLeft("--golang--", "-")
 fmt.Println(a9)//输出golang--
 ```
-11.  将字符串右边指定的字符去掉，例如：
+11.   将字符串右边指定的字符去掉，例如：
 ```golang
 a10 := strings.TrimRight("--golang--", "-")
 fmt.Println(a10)//输出--golang
 ```
-12.  判断字符串是否以指定的字符串开头，例如：
+12.   判断字符串是否以指定的字符串开头，例如：
 ```golang
 a11 := strings.HasPrefix("image.jpg", "image")
 fmt.Println(a11)//输出true
 ```
-13.  判断字符串是否以指定的字符串结尾，例如：
+13.   判断字符串是否以指定的字符串结尾，例如：
 ```golang
 a12 := strings.HasSuffix("image.jpg", "jpg")
 fmt.Println(a12)//输出true
@@ -642,7 +645,7 @@ func main() {
 	fmt.Println(len(str))//输出结果为6
 }
 ```
-2. new函数：分配内存，主要用来分配值类型（int、float、bool、string、数组和结构体struct）,例如：
+1. new函数：分配内存，主要用来分配值类型（int、float、bool、string、数组和结构体struct）,例如：
 ```golang
 func main() {
 	num := new(int)
@@ -652,7 +655,7 @@ func main() {
 输出结果为：num的类型是：*int，num的值是：0xc0000120d8，num的地址：0xc000048028,num指针指向的值是：0 
 说明：num是一个指针变量，指针里存放的就是num的值，但指针本身也有一个内存地址，所以num的地址就是他的储存地址，指针指向的值就是num的值所以为0
 
-3. make函数：分配内存，主要用来分配引用类型（指针、slice切片、map、管道chan、interface等）
+1. make函数：分配内存，主要用来分配引用类型（指针、slice切片、map、管道chan、interface等）
 ------
 ### 临时拓展：
 1. 从键盘上输入一个数

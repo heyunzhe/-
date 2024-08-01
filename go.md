@@ -223,7 +223,7 @@ import (
 * 整数转字符串：str = strconv.ltoa(6887)
 -------
 ### errors
-* 使用字符串创建一个错误：errors New()
+* 使用字符串创建一个错误：errors New()b
 -------
 ### builtin
 * 系统内置包无需声明即可使用
