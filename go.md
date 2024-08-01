@@ -3,14 +3,19 @@
 * https://gitee.com/dopaminereceptor/over-golang/tree/master
 * https://studygolang.com/pkgdoc
 * 官网：https://golang.org/dl/
+------
 ## 安装go
 1. linux上输入：wget https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz【下载压缩包,可以在官网上找版本】
 2. 解压：sudo tar zxvf go1.22.5.linux-amd64.tar.gz -C /usr/local/ 【注意：如果解压到的目录是root权限一定要加**sudo**不然解压不进去,可以通过“**ls -la** 目录名” 查看目录的权限是哪个用户的】
 3. 配置：sudo vim /etc/profile 打开目录【不加sudo可能打开了无法编辑】 底下添加export GOROOT=/usr/local/go  export PATH=$PATH:$GOROOT/bin
 重启一下环境：source /etc/profile  应该就可以用了，可以使用go version 查询一下有无安装成功 
+
+-------
 ## 运行go程序：
 1. go run 文件名 【记得是要在当前文件的目录下，适合运行一些简单的go程序】
 2. 使用 go build 文件名 or go install 文件名 生成可执行文件使用 ./文件名 运行 【都要基于当前文件目录下】
+
+-------
 ## go的注意事项
 1. 源文件以go为扩展名
 2. 程序执行入口为main()函数
@@ -45,7 +50,8 @@ func main() { //主函数main只有一个
 * chan interface map struct 【用做一些组合类型的字面表示中】
 * break case continue default else fallthrough for goto if range return select switch 【用在流程控制语句中】
 * defer go 【也可以看做流程控制关键字】 
-  
+
+-------  
 ## 预定标识符
 go中一共有以下36个预定标识符，包含基础数据类型和系统内嵌函数
 * append bool byte cap close complex complex64
@@ -61,6 +67,7 @@ go中一共有以下36个预定标识符，包含基础数据类型和系统内�
 2. var 变量名 变量类型 如：var age int 【定义一个age变量为整数型不赋值，使用默认值】 
 3. var 变量名 = 值 如：var age = 18 【定义一个age变量，不写变量类型根据等号后的值判断类型，但最好是知道变量类型就写上】 
 4. 变量名 := 值 如：age := 18 【省略var注意:=不要写成=】  
+----------
 ### 定义变量（多个变量）
 1. var 变量名1,变量名2....,变量名n 变量类型 如：var a,b,c int 【定义a,b,c三个变量为整型】
 2. var 变量名1,变量名2,...,变量名n 值1,值2,...值n 如：var a,b,c = 1,2,3
@@ -77,8 +84,11 @@ _______
 1. 有符号位：int int8(-128~127) int16(-32768~32767) int32(-2^31~2^31-1) int64(-2^63~2^63-1)
 2. 无符号位：uint uint8(0~255) uint16(0~2^16-1) uint32(0~2^32-1) uint64(0~2^63-1)
 **ps**：尽量使用占用空间小的数据类型
+
+--------
 #### 浮点类型(有小数点的数，默认值为0)：
 * float32 float64 **ps**：浮点数可能会有精度的损失，通常情况下建议使用float64定义,默认为float64
+----------
 #### 字符类型：
 1. byte（0~255）其实就是uint8的内置编码，本质上就是一个整数，也可以直接参与运算，底层对应ASCII码，汉字字符底层对于Unicode码，Golang的字符对应UTF-8编码（Unicode包含UTF-8编码，ASCII码）
 2. 转义字符：在输出的字符中间加上\参数 例如fmt.Println("abc\nabc") 其中\n为转义字符作用为换行输出:
@@ -88,13 +98,16 @@ abc</br>abc
 * 将光标回到本行开头：\r 例如：fmt.Println("aaaaa\rbbb") 输出bbbaa
 * 表示一个制表符(8位)：\t 例如：fmt.Println("aaaaaaa\tbbb") 输出aaaaaaa bbb
 * 将双引号输出：\" 例如：fmt.Println("\"golang\"") 输出"golang
+------
 #### 布尔型（默认值为false）：
 * bool 【只有ture和false两个值】
+--------
 #### 字符串（默认值为空）：
 * string 【字符串定义完后，其中的字符的值不能改变，输出的字符有特殊字符是可以使用``(反引号)括起来，没有就""】 可以拼接字符例如：var s3 string = "abc" + "defg" 输出s3显示abcdefg
 
 **ps**：当赋予的值超过了定义类型本身的值就会报错，选择合适变量定义合适的值
 
+---------
 #### 数据类型转换
 * 数值类型转换
 ```golang
@@ -128,7 +141,7 @@ ps:当转换的数据大于定义类型的实际存储范围时，会数据溢�
 	var s4 string = fmt.Sprintf("%c", n4)//%c表示改值对应的unicode字符
 	fmt.Printf("%T s4 = %q \n", s4, s4)//输出string s4 = "a"
 ```
-_______
+-------
 ## 指针
 ```golang
 	var age int = 18
@@ -143,7 +156,7 @@ _______
 ```
 **ps：** **&**：取内存地址 </br> *：根据地址取值
 
------
+------
 ## 包
 ### 导入包
 * 格式：import "包的名字" 
@@ -158,6 +171,7 @@ import (
 * 导入外部包如：import "goproject/gocode/go11/test"
 注：需配置环境变量，在linux中一般是安装go的目录的src处，将go文件移动到src就可以调用，导入时可以省略/src/前面的内容，只要后面的   
 **注**：导入外部包只有大写字母开头的才可以被调用
+----------
 ### fmt 
 * fmt.Println(内容) 输出
 * fmt.Printf(内容)表示格式化输出，如：fmt.Printf("a的类型是：%T", a) 把a的变量类型填充到%T上 
@@ -182,8 +196,11 @@ import (
 17. %x	表示为十六进制，使用a-f
 18. %X	表示为十六进制，使用A-F
 19. %U	表示为Unicode格式：U+1234，等价于"U+%04X"  
-* unsafe 【使用unsafe.Sizeof(变量名) 查询变量对应的字节数】
 
+---------
+### unsafe
+* 查询变量对应的字节数：unsafe.Sizeof(变量名)
+----------
 ### strings
 * 查找子串是否在指定字符串中：strings.Contains()
 * 统计一个字符串有几个指定子串：strings.Count()
@@ -200,7 +217,7 @@ import (
 * 将字符串右边指定的字符去掉：strings.TrimRight()
 * 判断字符串是否以指定的字符串开头：strings.HasPrefix()
 * 判断字符串是否以指定的字符串结尾：strings.HasSuffix()
-
+---------
 ### strconv
 * 字符串转整数：n,_:= strconv.Atoi("66") 
 * 整数转字符串：str = strconv.ltoa(6887)
@@ -226,19 +243,25 @@ fmt.Println(10 % 3) // 10%3= 10-10/3*3 =1
 ```
 a++ 等同于 a = a + 1 | a--等同于 a = a - 1
 注：go语言中++，--操作非常简单，只能单独使用，不能参与到运算中，++，--只能在变量后面不能再变量前面如：++a **错误写法**
+
+-------
 ### 赋值运算符：=，+=，-=，*=，/=,%=
 * ps:赋值运算符就是将某个运算后的值，赋给指定的变量
 * 例如：a += 20 等同于 a = a + 20 同理 a*= 20 等同于 a = a * 20 ...
+----------
 ### 关系运算符：==，!=，>，<，>=，<=
 * ps:关系运算符常用在流程控制中，返回结果都是bool型，要么true，要么false
 * 例如：5==9 判断左右两边是否相等，相等返回true，不相等返回false 同理 5!=9 判断左右两边是否不相等，不相等返回true，相等返回false
+--------
 ### 逻辑运算符：&&(与)，||(或)，!(非)
 * 例如：5==9 && 5!=9 返回false，两个表达式只要有一个不为true就为false
 * 5==9 || 5!=9 返回true，两个表达式只要有一个为true就返回true
 * !5==9 返回true，取相反的结果
+--------
 ### 其他运算符：& *
 * &：取内存地址 例如：a = &age | a的值为变量age的存放地址
 * *：根据地址取值 例如：var ptr *int = &age | 首先需要定义一个变量存放地址，ptr = &age 但 *ptr = age(可以参考指针部分)
+--------
 ### 注意！
 * **运算符有优先级但( )内的优先计算**
 
