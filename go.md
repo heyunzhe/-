@@ -146,7 +146,7 @@ ps:当转换的数据大于定义类型的实际存储范围时，会数据溢�
 ```golang
 	var age int = 18
 	fmt.Println(&age) //&age = 0xc0000120d0 //&+变量可以输出变量的地址
-	var ptr *int = &age //定义一个名为ptr的指针变量 **ps**：指针接收的一定是一个地址值不要漏写&，此外变量定义什么类型 * 后就跟什么类型，当变量定义为int但 * 后面跟着float32 就会报错
+	var ptr *int = &age //定义一个名为ptr的指针变量 
 	//其类型为*int为指针类型（可以理解为指向int类型的指针，这里是指向age）
 	//&age就是一个地址，是ptr变量的值
 	fmt.Println(*ptr)//输出指针指向内容的值
