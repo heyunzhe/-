@@ -1,11 +1,11 @@
 ## 错误处理
 ### defer+recover机制处理错误
 * 展示错误
-</br>![alt text](D:/xxbj/image/image-1.png)
+</br>![image-1](D:/xxbj/image/image-1.png)
 从图中可以看出：程序中出现错误/恐慌以后，程序被中断，无法继续执行
 * 错误处理/捕获机制：go中追求代码优雅，引入机制:defer+recover机制处理错误
 * 内置函数recover 
-</br>![alt text](D:/xxbj/image/image-2.png)
+</br>![image-2](D:/xxbj/image/image-2.png)
 * 代码展示：
 
 ```golang
@@ -43,7 +43,7 @@ yes
 ---------
 ### 自定义错误
 * 需要调用errors包下的New函数：函数返回error类型
-![alt text](D:/xxbj/image/image-3.png)
+![image-3](D:/xxbj/image/image-3.png)
 * 代码展示
 ```golang
 func main() {
@@ -75,7 +75,7 @@ yes
 ```
 ------
 有一种情况：程序出现错误以后，后续代码就没有必要执行，想让程序中断，退出程序：借助：builtin包下内置函数：panic
-![alt text](D:/xxbj/image/image-4.png)
+![image-4](D:/xxbj/image/image-4.png)
 * 代码展示
 ```golang
 func main() {

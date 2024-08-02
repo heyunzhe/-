@@ -73,8 +73,8 @@ Linux命令行：https://github.com/jlevy/the-art-of-command-line/blob/master/RE
 >>2
 >>>3
 * 换行 `</br>`
-* 图片：可以直接复制图片粘贴 
-![Alt text](D:/xxbj/image/image.png)
+* 图片：可以直接复制图片粘贴, 格式![说明](地址)
+![image](D:/xxbj/image/image.png)
 * 无序列表：开头用*，+，-都行记得加个空格
 * 有序列表：开头使用个数字并加上.和空格
 * 分割线：空一行用 _ 或 * 三个以上都可以
