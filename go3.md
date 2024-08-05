@@ -1,11 +1,11 @@
 ## 错误处理
 ### defer+recover机制处理错误
 * 展示错误
-</br>![image-1](D:/xxbj/image/image-1.png)
+</br>![image-1](C:/Users/HYun/Desktop/文件/xxbj/image/image-1.png)
 从图中可以看出：程序中出现错误/恐慌以后，程序被中断，无法继续执行
 * 错误处理/捕获机制：go中追求代码优雅，引入机制:defer+recover机制处理错误
 * 内置函数recover 
-</br>![image-2](D:/xxbj/image/image-2.png)
+</br>![image-2](C:/Users/HYun/Desktop/文件/xxbj/image/image-2.png)
 * 代码展示：
 
 ```golang
@@ -42,7 +42,7 @@ yes
 ---------
 ### 自定义错误
 * 需要调用errors包下的New函数：函数返回error类型
-![image-3](D:/xxbj/image/image-3.png)
+![image-3](C:/Users/HYun/Desktop/文件/xxbj/image/image-3.png)
 * 代码展示
 ```golang
 func main() {
@@ -74,7 +74,7 @@ yes
 ```
 ------
 有一种情况：程序出现错误以后，后续代码就没有必要执行，想让程序中断，退出程序：借助：builtin包下内置函数：panic
-![image-4](D:/xxbj/image/image-4.png)
+![image-4](C:/Users/HYun/Desktop/文件/xxbj/image/image-4.png)
 * 代码展示
 ```golang
 func main() {
@@ -563,14 +563,14 @@ fmt.Println(c)
 ```
 ### map操作
 * 修改操作：map["key"] = value --->如果有key就是修改，没有就是增加，例如：
-```
+```go
 b := make(map[int]string)
 b[400] = "你"
 b[400] = "hao"
 fmt.Println(b)//输出map[400:hao]
 ```
 * 删除操作：delete(map,"key),delete是一个内置函数，如果key存在，就删除key-value，如果k的y不存在，不操作，但是也不会报错
-```
+```go
 b[400] = "ni"
 fmt.Println(b)
 delete(b, 400)
@@ -581,7 +581,7 @@ fmt.Println(b)
 2.或者map = make(...),make一个新的，让原来的成为垃圾，被gc回收
 * 查找操作：value ,bool = map[key]
 value为返回的value，bool为是否返回，要么true要么false，例如：
-```
+```go
 value, flag := b[500]
 fmt.Println(value)
 fmt.Println(flag)
