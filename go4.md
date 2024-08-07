@@ -73,10 +73,10 @@ type Teacher struct {
 func main() {
 	var t *Teacher = new(Teacher)//定义一个指针变量t
 //t指向的就是地址，应该给这个地址的指向对象的字段赋值
-	(*t).Name = "马士兵"//*的作用，根据地址取值
+	(*t).Name = "马士兵"//*的作用，根据地址取值，不加也不影响
 	(*t).Age = 45
 	t.School = "清华大学"//go的编译器将t.School转化成(*t).School = "清华大学"
-	fmt.Println(*t)
+	fmt.Println(*t)//加*输出内容，不加输出地址
 }
 ```
 * 方法四返回结构体指针：
@@ -88,7 +88,7 @@ type Teacher struct {
 }
 func main(){
 	var t *Teacher = &Teacher{"马士兵",45,"清华大学"}//一一对应前面所定义的变量
-	fmt.Println(*t)
+	fmt.Println(*t)//加*输出内容，不加输出地址
 }
 ```
 #### 结构体之间的转换
