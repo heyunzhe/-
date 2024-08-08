@@ -91,6 +91,7 @@ func main(){
 	fmt.Println(*t)//加*输出内容，不加输出地址
 }
 ```
+-----------
 #### 结构体之间的转换
 * 结构体是用户单独定义的类型，和其他类型进行转换时需要有完全相同的字段（名字、个数和类型），例如：
 ```golang
@@ -155,6 +156,8 @@ func main() {
 }
 ```
 ps:如果其他类型变量调用test方法一定会报错，结构体对象传入test方法中，值传递，和函数参数传递一致。
+
+---------
 ##### 注意事项
 1. 结构体类型是值类型，在方法调用中，遵守值类型的传递机制，是值拷贝传递方式
 2. 如果希望在方法中，改变结构体变量的值，可以通过指针的方式来处理，例如：
@@ -321,6 +324,7 @@ func main() {
 	fmt.Println(*s4)
 }
 ```
+-----------
 #### 跨包创建结构体
 1. 创建两个不同的包：
 ![alt text](C:/Users/HYun/Desktop/文件/xxbj/image/image-5.png)
@@ -366,7 +370,7 @@ func main() {
 }
 ```
 -------
-### 封装
+#### 封装
 * 概念：
 1.封装(encapsulation)就是把抽象出的字段和对字段的操作封装在一起，数据被保护在内部，程序的其他包只有通过被授权的操作方法，才能对字段进行操作。
 * 好处：
@@ -427,3 +431,640 @@ func main() {
 	fmt.Println(*p)
 }
 ```
+----------
+### 继承
+* 概念：当多个结构体存在相同的属性（字段）和方法时，可以从这些结构体中抽象出结构体，在该结构体中定义这些相同的属性和方法，其它的结构体不需要重新定义这些属性和方法，只需嵌套一个匿名结构体即可。也就是说在Golang中，如果一个struct嵌套了另一个匿名结构体，那么这个结构体可以直接访问匿名结构体的字段和方法，从而实现了继承特征。
+* 代码展示：
+```golang
+//定义动物结构体
+type Animal struct {
+	Age    int
+	Weight float32
+}
+//给Animal绑定方法
+func (an *Animal) Shout() {
+	fmt.Println("我可以大声喊叫")
+}
+//绑定方法
+func (an *Animal) ShoutInfo() {
+	fmt.Printf("动物的年龄是：%v,动物的体重是：%v\n", an.Age, an.Weight)
+}
+//定义结构体Cat
+type Cat struct {
+	//为了提高复用性，体现继承思维，嵌入匿名结构体：--》将Animal中的字段和方法都达到复用
+	Animal
+}
+//对Cat绑定特有方法
+func (c *Cat) mao() {
+	fmt.Println("我是小猫")
+}
+func main() {
+	cat := &Cat{}
+	cat.Animal.Age = 3
+	cat.Animal.Weight = 10.6
+	cat.Animal.Shout()
+	cat.Animal.ShoutInfo()
+	cat.mao()
+}
+```
+* 优点：提高了代码的复用性，扩展性
+---------
+#### 注意事项
+1. 结构体可以使用嵌套匿名结构体所有的字段和方法，即：首字母大写或小写的字段，方法，都可以使用
+2. 匿名结构体字段访问可以简化，例如：
+```golang
+func main() {
+	cat := &Cat{}//创建cat结构体示例 
+	cat.Age = 3 //等价于cat.Animal.Age = 3
+	cat.Weight = 10.6//等价于cat.Animal.Weight = 10.6
+	cat.Shout()//等价于cat.Animal.Shout()
+	cat.ShoutInfo()//等价于cat.Animal.ShoutInfo()
+	cat.mao()
+}
+```
+ps：cat.Age--->cat对应的结构体中找是否有Age字段，如果有就直接使用，如果没有就去找嵌入的结构体类型中的Age
+3. 当结构体和匿名结构体有相同的字段或方法时，编辑器采用就近访问原则访问，如果希望访问匿名结构体的字段和方法，可以通过匿名结构体名来区分，例如
+```golang
+type Animal struct {
+	Age    int
+	Weight float32
+}
+func (an *Animal) ShoutInfo() {
+	fmt.Printf("动物的年龄是：%v,动物的体重是：%v\n", an.Age, an.Weight)
+}
+type Cat struct {
+	Animal
+	Age int
+}
+func (c *Cat) ShoutInfo() {
+	fmt.Printf("动物的年龄是：%v,动物的体重是：%v\n", c.Age, c.Weight)
+}
+func main() {
+	cat := &Cat{}
+	cat.Weight = 9.4 //等价于cat.Animal.Weight = 9.4
+	cat.Age = 10 //判定是给Cat结构体的age赋值
+	cat.Animal.Age = 20//给Animal结构体的age赋值
+	cat.ShoutInfo()//动物的年龄是：10,动物的体重是：9.4
+	cat.Animal.ShoutInfo()//动物的年龄是：20,动物的体重是：9.4
+}
+```
+4. Golang中支持多继承：如一个结构体嵌套了多个匿名结构体，那么该结构体可以直接访问嵌套的匿名结构体的字段和方法，从而实现多重继承，例如：
+```golang
+type A struct {
+	a int
+	b string
+}
+type B struct {
+	c int
+	d string
+}
+type C struct {
+	A
+	B
+}
+func main() {
+	c := C{A{10, "aaa"}, B{20, "ccc"}}
+	fmt.Println(c)
+}
+```
+5. 如嵌入的匿名结构体有相同的字段名或方法名，则在访问时，需要通过匿名结构体类型名来区分，例如：
+```golang
+type A struct {
+	a int
+	b string
+}
+type B struct {
+	c int
+	d string
+	a int
+}
+type C struct {
+	A
+	B
+}
+func main() {
+	c := C{A{10, "aaa"}, B{20, "ccc", 70}}
+	fmt.Println(c.b)//aaa
+	fmt.Println(c.d)//ccc
+	fmt.Println(c.A.a)//10 有俩相同字段必须要指定访问不能c.a
+	fmt.Println(c.B.a)//70
+}
+```
+6. 结构体的匿名字段可以使基本数据类型,例如：
+```golang
+type A struct {
+	a int
+	b string
+}
+type B struct {
+	c int
+	d string
+	a int
+}
+type C struct {
+	A
+	B
+	int //数据类型
+}
+func main() {
+	c := C{A{10, "aaa"}, B{20, "ccc", 70}, 888}//赋值888
+	fmt.Println(c.b)
+	fmt.Println(c.d)
+	fmt.Println(c.A.a)
+	fmt.Println(c.B.a)
+	fmt.Println(c.int)//888
+}
+```
+7. 嵌套匿名结构体后，也可以在创建结构体变量（实施）时，直接指定各个匿名结构体字段的值，例如：
+```golang
+func main() {
+	c := C{   //指定赋值
+		A{
+			a: 10,
+			b: "aaa"},
+		B{ 
+			c: 20,
+			d: "ccc",
+			a: 70},
+		888}
+	fmt.Println(c.b)
+	fmt.Println(c.d)
+	fmt.Println(c.A.a)
+	fmt.Println(c.B.a)
+	fmt.Println(c.int)
+}
+```
+8. 嵌入函数结构体的指针也是可以的，例如：
+```golang
+type A struct {
+	a int
+	b string
+}
+type B struct {
+	c int
+	d string
+	a int
+}
+type C1 struct {
+	*A //指针结构体
+	*B
+	int
+}
+func main() {
+	c1 := C1{&A{10, "aaa"}, &B{20, "ccc", 50}, 888}
+	fmt.Println(c1)//输出地址
+	fmt.Println(*c1.A)//输出A
+	fmt.Println(*c1.B)//输出B
+}
+```
+9. 结构体的字段可以是结构体类型的（组合模式），例如：
+```golang
+type B struct {
+	c int
+	d string
+	a int
+}
+type D struct {
+	a int
+	b string
+	c B //组合模式
+}
+func main() {
+	d := D{10, "ooo", B{20, "bbb", 30}}
+	fmt.Println(d) 
+	fmt.Println(d.c.d) //取D结构中的c包含B结构中的d，输出bbb
+}
+```
+---------
+### 接口
+代码展示：
+```golang
+type SayHello interface {//定义接口
+	sayHello()//声明没有实现的方法
+}
+
+type Chinese struct {//结构体
+}
+
+func (person Chinese) sayHello() {//实现接口方法
+	fmt.Println("你好")
+}
+
+type USA struct {
+}
+
+func (person USA) sayHello() {
+	fmt.Println("hello")
+}
+
+func greet(s SayHello) {//接收SayHello接口能力的变量
+	s.sayHello()
+}
+
+func main() {
+	c := Chinese{}
+	u := USA{}
+	greet(u)
+	greet(c)
+}
+```
+* 总结
+1.接口中可以定义一组方法，但不需要实现，不需要方法体。并且接口中不能包含任何变量。到某个自定义类型要使用的时候（实现接口的时候），再根据具体情况把这些方法具体实现出来
+2.实现接口要实现所有的方法才是实现
+3.Golang中的接口，不需要显示的实现接口
+4.Golang中实现接口是基于方法的，不是基于接口的
+--------
+#### 注意事项
+1. 接口本身不能创建实例，但是可以指向一个实现了该接口的自定义类型的变量，例如
+```golang
+func main() {
+	c := Chinese{}
+	u := USA{}
+	greet(u)
+	greet(c)
+	//直接用接口创建实例，出错
+	// var s SayHello
+	// s.sayHello()
+	var s SayHello = c //定义接口赋值一个实现的接口
+	s.sayHello()//调用接口方法
+}
+```
+2. 只要是自定义类型数据，都可以实现接口，不仅仅是结构体，例如：
+```golang
+type hello int
+func (i hello) sayHello() {
+	fmt.Println("say hi +", i)
+}
+func main() {
+	var i hello = 10
+	var s SayHello = i
+	s.sayHello()
+}
+```
+3. 一个自定义类型可以实现多个接口，例如：
+```golang
+type Hello interface {//接口
+	a()
+}
+
+type Hi interface {//接口
+	b()
+}
+
+type stu struct { //一个类型
+}
+
+func (s stu) a() { //方法实现
+	fmt.Println("123")
+}
+
+func (s stu) b() {
+	fmt.Println("abc")
+}
+
+func main() {
+	var a stu 
+	var b Hello = a
+	var c Hi = a
+	b.a()
+	c.b()
+}
+```
+4. 一个接口（比如A接口）可以继承多个别的接口（比如B，C接口），这时如果要实现A接口，也必须将B，C接口的方法也全部实现，例如：
+```golang
+type Cat interface { //接口1
+	c()
+}
+type Book interface {//接口2
+	b()
+}
+type Apple interface {//接口3
+	Book
+	Cat
+	a()
+}
+type Stu struct { //定义结构体
+}
+func (s Stu) a() { //方法
+	fmt.Println("a")
+}
+func (s Stu) b() {
+	fmt.Println("b")
+}
+func (s Stu) c() {
+	fmt.Println("c")
+}
+func main() {
+	var s Stu
+	var a Apple = s
+	a.a()
+	a.b()
+	a.c()
+}
+```
+5. 接口（interface）类型默认是一个指针（引用类型），如果没有对interface初始化就使用，那么会输出nil
+6. 空接口没有任何方法，所以可以理解为所有类型都实现了空接口，也可以理解为我们可以把任何一个变量赋给空接口，例如
+```golang
+type Kong interface {
+}
+func main() {
+	var e Kong = s
+	fmt.Println(e) //输出{}
+	var e2 interface{} = s
+	fmt.Println(e2) //输出{}
+	var num float64 = 9.3
+	var e3 interface{} = num
+	fmt.Println(e3)//输出9.3
+}
+```
+---------
+#### 多态
+* 概念：变量（实例）具有很多种形态。面向对象的第三大特征，在Go语言，多态特征是通过接口实现的。可以按照统一的接口来调用不同的实现。这时接口变量就呈现不同的形态，例如：
+```golang
+func greet(s SayHello) { //S为多态参数
+	s.sayHello()
+}
+```
+ps：s可以通过上下文来识别具体是什么类型的实例，就体现出多态，全部代码可以参考接口的代码展示
+* 接口体现多态特征
+1.多态参数：s叫多态参数
+2.多态数组：
+定义SayHello数组，存放中国人结构体，美国人结构体
+```golang
+func main() {
+	var arr [3]SayHello
+	arr[0] = USA{"rose"}
+	arr[1] = Chinese{"莉莉"}
+	arr[2] = Chinese{"露露"}
+	fmt.Println(arr)
+}
+```
+----------
+#### 断言
+* 概念：Go语言里面有一个语法，可以直接判断是否是该类型的变量：value，ok = element.(T)，这里的value就是变量的值，ok是一个bool类型，element是interface变量，T是断言的类型。
+* 代码展示：
+```golang
+type SayHello interface {
+	sayHello()
+}
+type Chinese struct {
+}
+func (person Chinese) sayHello() {
+	fmt.Println("你好")
+}
+//中国人特有的方法
+func (person Chinese) niuYanGe() {
+	fmt.Println("东北文化-扭秧歌")
+}
+type USA struct {
+}
+func (person USA) sayHello() {
+	fmt.Println("hello")
+}
+func greet(s SayHello) {
+	s.sayHello()
+	//断言
+	var ch Chinese = s.(Chinese)//看s是否能转成Chinese类型并且赋给ch变量
+	ch.niuYanGe()
+}
+func main() {
+	c := Chinese{}
+	greet(c)
+}
+```
+* if语句
+```golang
+func greet(s SayHello) {
+	s.sayHello()
+	if ch, flag := s.(Chinese); flag { //通过分号隔开，前面对变量进行初始化，后面进行判断
+		ch.niuYanGe()
+	} else {
+		fmt.Println("NO")
+	}
+}
+```
+* Type Switch语句
+```golang
+func greet(s SayHello) {
+	s.sayHello()
+	switch s.(type) {
+	case Chinese:
+		ch := s.(Chinese)
+		ch.niuYanGe()
+	case USA:
+		am := s.(USA)
+		am.tiaowuw()
+	}
+}
+```
+---------
+## 文件的操作
+### File结构体
+1. 打开文件，用于读取：(函数)
+```go
+file, err := os.Open("/home/user/test/abc.txt")//打开文件
+if err != nil { //判断有没有错误
+	fmt.Println("文件打开错误对应错误为：", err)
+}
+fmt.Printf("文件=%v\n", file)
+```
+2. 关闭文件
+```go
+err2 := file.Close()//关闭文件
+if err2 != nil {
+	fmt.Println("关闭失败")
+}
+```
+-------
+### io引入
+#### 读取文件（一次性）
+* 代码展示：
+```golang
+import (
+	"fmt"
+	"io/ioutil"
+)
+func main() {
+	//在下面的程序中不需要进行Open\Close操作，因为文件的打开和关闭操作被封装在ReadFile函数内部了
+	//读取文件
+	file, err := ioutil.ReadFile("/home/user/test/abc.txt")
+	//判断错误
+	if err != nil {
+		fmt.Println("读取出错，错误为：", err)
+	}
+	fmt.Printf("%v", string(file))//转换为字符串输出
+}
+```
+----------
+#### 读取文件（带缓冲区）
+* 读取文件的内容并显示在终端（带缓冲区的方式-4096），适合读取比较大的文件，使用os.Open，file.Close，bufio.NewReader()，reader.ReadString函数和方法
+* 代码展示：
+```go
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"os"
+)
+func main() {
+	//打开文件
+	file, err := os.Open("/home/user/test/abc.txt")
+	if err != nil {
+		fmt.Println("打开失败，错误是：", err)
+	}
+	//当函数退出时，让file关闭
+	defer file.Close()
+	//创建一个流
+	reader := bufio.NewReader(file)
+	//读取操作
+	for {
+		str, err := reader.ReadString('\n')//读取到一个换行就结束
+		if err == io.EOF {//io.EOF表示已经读取到文件的末尾
+			break
+		}
+		fmt.Printf("%v", str)
+	}
+}
+
+```
+---------
+#### 写入文件
+* 指令展示，打开文件：
+![image-6](C:/Users/HYun/Desktop/文件/xxbj/image/image-6.png)
+* 三个参数：
+1.要打开的文件路径
+2.文件打开模式（可以利用|组合使用）
+![image-7](C:/Users/HYun/Desktop/文件/xxbj/image/image-7.png)
+3.权限控制
+* 代码展示：
+```go
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+func main() {
+	file, err := os.OpenFile("/home/user/test/abc.txt", os.O_RDWR|os.O_APPEND, 0666) //打开文件操作
+	if err != nil {
+		fmt.Println("打开文件失败", err)
+		return
+	}
+	defer file.Close()
+	//写入文件操作：---》IO流---》缓冲输出流（带缓冲区）
+	writer := bufio.NewWriter(file)
+	for i := 0; i <= 5; i++ {
+		writer.WriteString("你好\n")
+	}
+	//流带缓冲区，刷新数据--->真正写入文件中
+	writer.Flush()
+
+	s := os.FileMode(0666).String()
+	fmt.Println(s)//0666权限为-rw-rw-rw-
+}
+```
+---------
+#### 文件复制
+* 代码展示
+```go
+import (
+	"fmt"
+	"io/ioutil"
+)
+
+func main() {
+	//定义源文件
+	file1Path := "/home/user/test/abc.txt"
+	//定义目标文件
+	file2Path := "/home/user/test/abc1.txt"
+	//对文件进行读取
+	content, err := ioutil.ReadFile(file1Path)
+	if err != nil {
+		fmt.Println("读取有问题")
+		return
+	}
+	//写出文件
+	err = ioutil.WriteFile(file2Path, content, 0666)
+	if err != nil {
+		fmt.Println("写出失败")
+	}
+}
+```
+---------
+## 协程和管道
+* 程序（program）：是为了完成特定任务、用某语言编写的一组指令的集合，是一段静态的代码。（程序是静态的）
+* 进程（process）：是程序执行一次的过程，正在运行的一个程序，进程作为资源分配的单位，在内存中会为每个进程分配不同的内存区域。（进程是动态的）是一个动的过程，进程的生命周期：有它自身的产生、存在和消亡的过程
+* 线程（thread）：进程可进一步细化，是一个程序内部的一条执行路径，若一个进程同一时间并执行多个线程，就是支持多线程的
+### 协程（gcroutine）：
+* 概念：又称为微线程，纤程，协程是一种用户态轻量级线程
+* 作用：在执行A函数的时候，可以随时中断，去执行B函数，然后中断继续执行A函数（可以自动切换），注意这一切换过程并不是函数调用（没有调用语句），过程很想多线程，然而协程中只有一个线程在执行（协程的本质是个单线程）
+* 案例展示：
+```go
+import (
+	"fmt"
+	"strconv"
+	"time"
+)
+
+func test() {
+	for i := 1; i <= 10; i++ {
+		fmt.Println("hello golang +" + strconv.Itoa(i))//strconv.Itoa(i)将i转换成字符串，以便和其他字符串连接起来完整输出
+		//
+		time.Sleep(time.Second)//一秒输出一次，两秒输出一个可以改成：time.Sleep(time.Second*2)
+	}
+}
+
+func main() {
+	go test() //开启协程,在函数前面加go就可以了
+	for i := 1; i <= 10; i++ {
+		fmt.Println("hello python +" + strconv.Itoa(i))
+		//
+		time.Sleep(time.Second)
+	}
+}
+```
+* 执行流程：1.主线程开始执行--->2.go test()开启协程--->3.执行协程中代码逻辑--->3.主线程代码继续执行--->程序结束/主线程结束
+**PS:当主线程运行结束时，若协程中还未执行完也会强制结束**
+--------
+#### 启动多个协程
+* 代码展示：
+```go
+import (
+	"fmt"
+	"time"
+)
+func main() {
+	//匿名函数+外部变量 = 闭包
+	for i := 1; i <= 5; i++ {
+		go func(n int) {
+			fmt.Println(n) //每次输出的结果不同，不按顺序输出
+		}(i)
+	}
+	time.Sleep(time.Second)
+}
+```
+----------
+#### 使用WaitGroup控制协程退出
+* WaitGroup概念：WaitGroup用于等待一组线程的结束。父线程调用Add方法来设定应等待的线程数量。每个被等待的线程在结束时应调用Done方法。同时，主线程里可以调用Wait方法阻塞至所有线程结束。---》解决了主线程在子协程结束后自动结束
+* 主要方法：![image-8](C:/Users/HYun/Desktop/文件/xxbj/image/image-8.png)
+* 案例分析：
+Add/Done/Wait
+```go
+import (
+	"fmt"
+	"sync"
+)
+var wg sync.WaitGroup //只定义无须赋值
+func main() {
+	for i := 1; i <= 5; i++ {
+		wg.Add(1) //启动加一
+		go func(n int) {
+			fmt.Println(n)
+			wg.Done()//完成减一
+		}(i)
+	}
+	wg.Wait()//wg为0结束
+}
+```
+---------
+#### 多个协程操作同一个数据
+

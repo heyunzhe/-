@@ -1,15 +1,14 @@
 ### 图书管理系统
 * 功能：添加图书、借书、还书、查询图书信息
 * 说明：编号是唯一的，其余不定
-* 注意：要想被外界调用，创建结构体定义的时候就必须以**大写字母**开头，否则无法被外界调用，传入json的数据也为空数据
 #### 代码展示
 ```golang
 package main
 
 import (
-	"encoding/json"
+	"encoding/json"//处理json数据
 	"fmt"
-	"os" //创建json文件
+	"os" //创建文件
     "sort" //排序切片
 )
 
@@ -151,8 +150,8 @@ func chakbook() { //查看所有书
 	if len(allbook) == 0 {
 		fmt.Println("还没有书")
 	}
-    sort.Slice(allbook, func(i, j int) bool {
-	    return allbook[i].Id < allbook[j].Id
+    sort.Slice(allbook, func(i, j int) bool { //i，j的值会随着指执行函数sort.Slice时传入
+	    return allbook[i].Id < allbook[j].Id //按照书的编号大小进行排序
 	})
 	for _, b := range allbook {
 		fmt.Printf("编号：%d 书名：%s 作者：%s 价格：%f  是否借出：%t\n", b.Id, b.Title, b.Author, b.Price, b.State)
@@ -203,3 +202,9 @@ func main() { //主函数
 	}
 }
 ```
+#### 注意事项
+1. 要想被外界调用，创建结构体定义的时候就必须以**大写字母**开头，否则无法被外界调用，传入json的数据也为空数据
+2. 对切片进行排序最好将排序的变量设置为数值型，字符型虽然也可以排，但数值型的优先级高，导入sort包
+3. 错误报告可写可不写，能写最好还是写上，提高代码健壮性
+4. for rang遍历切片，第一个参数可以省略，表示索引值，第二个参数才是切片的内容
+5. switch表达式记得也要加{}，然后case后面跟的是值加:,不是case :值
