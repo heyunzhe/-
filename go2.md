@@ -657,11 +657,3 @@ func main() {
 
 1. make函数：分配内存，主要用来分配引用类型（指针、slice切片、map、管道chan、interface等）
 ------
-### 临时拓展：
-1. 从键盘上输入一个数
-格式：
-```golang
-var x int
-fmt.Scanln(&x)//方法1
-fmt.Scanf("%d",&x)//方法2
-```
