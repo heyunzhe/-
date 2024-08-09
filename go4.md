@@ -785,18 +785,57 @@ func greet(s SayHello) { //S为多态参数
 	s.sayHello()
 }
 ```
-ps：s可以通过上下文来识别具体是什么类型的实例，就体现出多态，全部代码可以参考接口的代码展示
+ps：s可以通过上下文来识别具体是什么类型的实例，就体现出多态
 * 接口体现多态特征
 1.多态参数：s叫多态参数
 2.多态数组：
 定义SayHello数组，存放中国人结构体，美国人结构体
 ```golang
+type SayHello interface {
+	sayHello()
+}
+
+type Chinese struct {
+	name string
+}
+
+func (person Chinese) sayHello() {
+	fmt.Println("你好")
+}
+
+type USA struct {
+	name string
+}
+
+func (person USA) sayHello() {
+	fmt.Println("hello")
+}
+
+type hello int
+
+func (i hello) sayHello() {
+	fmt.Println("say hi +", i)//[{rose} {莉莉} {露露}]
+}
+
+func greet(s SayHello) {
+	s.sayHello()
+}
+
 func main() {
 	var arr [3]SayHello
 	arr[0] = USA{"rose"}
 	arr[1] = Chinese{"莉莉"}
 	arr[2] = Chinese{"露露"}
+
 	fmt.Println(arr)
+
+	var i hello = 10
+	var s SayHello = i
+	s.sayHello()//say hi + 10
+	c := Chinese{}
+	u := USA{}
+	greet(u)//hello
+	greet(c)//你好
 }
 ```
 ----------
@@ -1347,5 +1386,4 @@ func main() {
 	go devide()
 	time.Sleep(time.Second * 5)
 }
-
 ```
