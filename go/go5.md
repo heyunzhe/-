@@ -50,3 +50,13 @@ func main() {
 	}
 }
 ```
+
+http://localhost:8080
+
+func main() {
+	http.HandleFunc("/", handler)
+	fmt.Println("Server is running on port 8080")
+	http.ListenAndServe(":8080", nil)
+}
+
+http://223.94.36.124:8080/update
