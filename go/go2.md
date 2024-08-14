@@ -319,7 +319,7 @@ ps：main函数一定要放在main包下，否则不能编译执行
 ```golang
 import (
 	"fmt"
-	abc "goproject/go/crm/aaaa" //给aaaa包起别名为text
+	abc "goproject/go/crm/aaaa" //给aaaa包起别名为abc
 )
 func main() {
 	aaaa.Test()//若不将aaaa改为abc运行时将会报错
