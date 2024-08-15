@@ -886,13 +886,13 @@ func greet(s SayHello) {
 ```golang
 func greet(s SayHello) {
 	s.sayHello()
-	switch s.(type) {
+	switch s.(type) { //固定写法
 	case Chinese:
 		ch := s.(Chinese)
 		ch.niuYanGe()
 	case USA:
 		am := s.(USA)
-		am.tiaowuw()
+		am.tiaowu()
 	}
 }
 ```
