@@ -618,10 +618,9 @@ func main() {
 1. 将日期以年月日时分秒按照格式输出为字符串，例如：
 ```golang
 // Printf将字符穿直接输出
-fmt.Printf("当前年月日:%d-%d-%d 时分秒：%d:%d:%d  \n", now.Year(), now.Month(),
-	now.Day(), now.Hour(), now.Minute(), now.Second())
+fmt.Printf("当前年月日:%d-%d-%d 时分秒：%d:%d:%d  \n", now.Year(), now.Month(),now.Day(), now.Hour(), now.Minute(), now.Second())
 //Sprintf可以得到这个字符串，以便后续使用
-datestr := fmt.Sprintf("当前年月日:%d-%d-%d 时分秒:%d:%d:%d  \n", now.Year(), 	now.Month(),now.Day(), now.Hour(), now.Minute(), now.Second())
+datestr := fmt.Sprintf("当前年月日:%d-%d-%d 时分秒:%d:%d:%d  \n", now.Year(),now.Month(),now.Day(), now.Hour(), now.Minute(), now.Second())
 fmt.Println(datestr)
 ```
 2.按照指定格式输出，例如：
@@ -645,7 +644,7 @@ func main() {
 	fmt.Println(len(str))//输出结果为6
 }
 ```
-1. new函数：分配内存，主要用来分配值类型（int、float、bool、string、数组和结构体struct）,例如：
+2. new函数：分配内存，主要用来分配值类型（int、float、bool、string、数组和结构体struct）,例如：
 ```golang
 func main() {
 	num := new(int)
@@ -655,5 +654,5 @@ func main() {
 输出结果为：num的类型是：*int，num的值是：0xc0000120d8，num的地址：0xc000048028,num指针指向的值是：0 
 说明：num是一个指针变量，指针里存放的就是num的值，但指针本身也有一个内存地址，所以num的地址就是他的储存地址，指针指向的值就是num的值所以为0
 
-1. make函数：分配内存，主要用来分配引用类型（指针、slice切片、map、管道chan、interface等）
+3. make函数：分配内存，主要用来分配引用类型（指针、slice切片、map、管道chan、interface等）
 ------

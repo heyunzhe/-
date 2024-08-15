@@ -208,3 +208,70 @@ func main() { //主函数
 3. 错误报告可写可不写，能写最好还是写上，提高代码健壮性
 4. for rang遍历切片，第一个参数可以省略，表示索引值，第二个参数才是切片的内容
 5. switch表达式记得也要加{}，然后case后面跟的是值加:,不是case :值
+-----------------
+### 计算器
+#### 代码展示
+```go
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func main() {
+	//逐行读取输入
+	Scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println("请输入一个算数表达式，例如：3 + 4")
+
+	for {
+		Scanner.Scan() //读取输入，直到遇到换行符或其他指定的分隔符，并将其存储在扫描器内部，以便后续处理
+		line := Scanner.Text() //获取当前扫描到的文本行
+
+		if strings.TrimSpace(line) == "exit" {
+			fmt.Println("退出计算器")
+			break //退出循环
+		}
+		a := strings.Fields(line) //分割成一个字符串切片
+		if len(a) != 3 { //判断是否有3个字符
+			fmt.Println("您输入的表达式有错误，请重新输入")
+			continue //退出本次循环继续下次
+		}
+		num1, err1 := strconv.ParseFloat(a[0], 64) //将字符串解析为float64格式
+		fuhao := a[1] //提取符号
+		num2, err2 := strconv.ParseFloat(a[2], 64)
+		if err1 != nil || err2 != nil { //转换字符串时有无错误
+			fmt.Println("无效的数字，请重新输入")
+			continue //有错结束本次循环继续下次
+		}
+		var result float64 
+		switch fuhao { //判读符号
+		case "+":
+			result = num1 + num2
+		case "-":
+			result = num1 - num2
+		case "*":
+			result = num1 * num2
+		case "/":
+			if num2 == 0 {
+				fmt.Println("除数不能为0")
+				continue
+			}
+			result = num1 / num2
+		default: //没有上面这四个符号时
+			fmt.Println("无效的操作符，请使用 +，-,*,/")
+			continue
+		}
+		fmt.Println("结果为", result)
+	}
+}
+```
+#### 语句具体含义
+1. Scanner := bufio.NewScanner(os.Stdin) //用于创建一个新的扫描器，它从标准输入 (os.Stdin) 读取数据，适用于处理大块数据或需要逐行处理的场景
+2. Scanner.Scan() //读取输入，直到遇到换行符或其他指定的分隔符，并将其存储在扫描器内部，以便后续处理
+3. Scanner.Text() // 获取上方语句读取的文本行
+4. strings.Fields(line) //用于将字符串按空白字符（空格、制表符、换行符等）分割成一个字符串切片（[]string）。它会自动去除多余的空白，并忽略连续的空白字符
+5. num1, err1 := strconv.ParseFloat(a[0], 64) //用于将字符串 tokens[0] 解析为浮点数。64 指定了返回值的精度为 64 位双精度浮点数（float64）。如果解析成功，它返回解析后的 float64 值和一个 nil 错误；如果失败，它返回 0 和一个错误值
+6. strings.TrimSpace(line) //去除字符两边空格
+--------------------
