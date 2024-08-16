@@ -120,3 +120,25 @@ sudo apt-get install openssh-server(安装)
 mv 后跟要移动的文件目录然后加空格，空格后为想要移动到的目录
 * 更改目录所有权：sudo chown -R $USER:$USER /home/user/go 
 ------
+## sqlite3数据库
+* 安装命令：sudo apt-get install sqlite3
+### l--系统命令，以.开头
+* 帮助：.help
+* 退出：.exit
+* 查看表的结构：.schema
+* 查看当前所有表：.table
+* 显示当前打开的数据库文件：.database
+### sql命令，以;结尾
+* 创建一张数据表 test：create table test(id Integer , name char , score Integer);  
+* 插入一条记录：insert into values(1001,'张三',80); //全部字段插入
+* 部分字段插入：insert into (id,name)values(1001,'李四');
+* 查询所有字段：select * from test;
+* 查询部分字段内容：select name, from test;
+* 条件查询：select * from test where score=80; //查询score=80的全部字段
+* 删除一条记录：delete from test where name = '张三'; //不写条件删除整个表
+* 更新一条记录：update test set name='wangwu' where id = 1001;
+* 插入一列：alter table test add column address char;//address为字段名，char为字段类型
+* 删除一列：sqlite3不支持直接删除一列，但可以通过：
+1.先创建一个表：create table stu as select id,name,score from test;
+2.删除原有的表：drop table test;
+3.将新表的名字改为旧表的名字：alter table stu rename to test

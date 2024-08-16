@@ -9,7 +9,6 @@
 2. 解压：sudo tar zxvf go1.22.5.linux-amd64.tar.gz -C /usr/local/ 【注意：如果解压到的目录是root权限一定要加**sudo**不然解压不进去,可以通过“**ls -la** 目录名” 查看目录的权限是哪个用户的】
 3. 配置：sudo vim /etc/profile 打开目录【不加sudo可能打开了无法编辑】 底下添加export GOROOT=/usr/local/go  export PATH=$PATH:$GOROOT/bin
 重启一下环境：source /etc/profile  应该就可以用了，可以使用go version 查询一下有无安装成功 
-
 -------
 ## 运行go程序：
 1. go run 文件名 【记得是要在当前文件的目录下，适合运行一些简单的go程序】
