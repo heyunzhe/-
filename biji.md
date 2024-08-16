@@ -118,4 +118,5 @@ sudo apt-get install openssh-server(安装)
 * 列出当前目录所有信息(比如：权限，所有者)：**ls -la 目录名**
 * 移动普通用户文件到root文件目录：sudo mv /home/user/GoPath /usr/local/go/src/
 mv 后跟要移动的文件目录然后加空格，空格后为想要移动到的目录
+* 更改目录所有权：sudo chown -R $USER:$USER /home/user/go 
 ------

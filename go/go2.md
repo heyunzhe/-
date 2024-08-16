@@ -298,7 +298,7 @@ import (
 )
 func main() {
 	aaaa.Test()//调用外部包函数，ps：要调用外部包，外部包开头字母必须要**大写**
-	fmt.Println("zheshiyige")
+	fmt.Println("测试")
 }
 ```
 ------
