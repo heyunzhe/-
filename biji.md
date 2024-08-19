@@ -122,6 +122,7 @@ mv 后跟要移动的文件目录然后加空格，空格后为想要移动到�
 ------
 ## sqlite3数据库
 * 安装命令：sudo apt-get install sqlite3
+* 打开数据表：sqlite3 books.db
 ### l--系统命令，以.开头
 * 帮助：.help
 * 退出：.exit
