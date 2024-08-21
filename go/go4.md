@@ -1387,3 +1387,5 @@ func main() {
 	time.Sleep(time.Second * 5)
 }
 ```
+## 扩展
+* 阻塞主程序添加一个空的select{},运行时只能通过ctrl+c强制退出

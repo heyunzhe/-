@@ -500,5 +500,6 @@ func main() {
 * result.RowsAffected()：数据库函数，通常用于查询删除、更新或插入操作后，返回受影响的行数
 -------------
 #### 语句含义
+* _, err = db.Exec(createTableQuery) //执行一次数据库命令，不返回任何值
 * w.Write([]byte(htmlContent.String())) //将构建好的 HTML 内容（以字符串形式）转换为字节切片，然后通过 HTTP 响应写入到客户端
 * w.Header().Set("Content-Type", "text/html; charset=utf-8") //设置html响应头的Content-Type为text/html，指定字符为utf-8（可以显示中文）

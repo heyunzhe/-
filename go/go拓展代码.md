@@ -275,5 +275,3 @@ func main() {
 5. num1, err1 := strconv.ParseFloat(a[0], 64) //用于将字符串 tokens[0] 解析为浮点数。64 指定了返回值的精度为 64 位双精度浮点数（float64）。如果解析成功，它返回解析后的 float64 值和一个 nil 错误；如果失败，它返回 0 和一个错误值
 6. strings.TrimSpace(line) //去除字符两边空格
 --------------------
-#### 数据库
-* 运行go程序：go build -mod=mod
