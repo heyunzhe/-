@@ -56,6 +56,7 @@ switch 表达式(即：常量、变量、一个有返回值的函数都行) {
     ...
     default:
         语句块
+}
 ```
 **注意**：
 1. defalut不是必须的，defalut表示如果上面case都没执行到就执行defalut，位置随意
