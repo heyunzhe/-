@@ -231,3 +231,194 @@ box.style.cssText = "width:200px;height:200px;background:red"
 * 优点：可以同时执行多个事件
 ----------
 ### 鼠标事件
+1. click：按下鼠标时触发
+2. dblclick：在同一个元素上双击鼠标时触发
+3. mousedown：按下鼠标键时触发
+4. mouseup：释放按下的鼠标键时触发
+5. mousemove：当鼠标在节点内部移动时触发，当鼠标持续移动时，该事件会连触发
+6. mouseenter：鼠标进入一个节点时触发，进入子节点不会触发这个事件
+7. mouseleave：鼠标离开一个节点时触发，离开父节点不会触发这个事件
+8. mouseover：鼠标进入一个节点时触发，进入子节点会再一次触发这个事件
+9. mouseout：鼠标离开一个节点时触发，离开父节点也会触发这个事件
+10. wheel：滚动鼠标的滚轮时触发
+* **PS：这些方法在使用的时候，除了DOM2级事件，其余的都需要加前缀on**
+* 代码展示：
+```js
+var btn1 = document.getElementById('dj') 
+btn1.onclick = function(){
+    console.log("dj")
+}
+var btn2 = document.getElementById('sj')
+btn2.ondblclick=function(){
+     console.log("sj")
+}
+var btn3 = document.getElementById('ax')
+btn3.onmousedown=function(){
+    console.log("ax")
+    }
+var btn4 = document.getElementById('tq')
+btn4.onmouseup=function(){
+    console.log("tq")
+}
+```
+* 先获取元素信息，再给元素添加事件
+------------
+### Event事件对象
+#### 对象属性
+1. Event.Target
+2. Event.type
+------------
+##### Event.Target
+* 返回事件当前所在的节点，例如：
+```js
+<button id="btn">按钮</button>
+
+<script>
+    var btn = document.getElementById("btn")
+    btn.onclick = function(event){
+        console.log(event.target) //输出<button id="btn">按钮</button>
+        event.target.innerHTML = "点击" //修改按钮名称为"点击"
+}
+</script>
+```
+----------
+##### Event.type
+* 返回一个字符串，表示事件类型，事件的类型是在生成事件的时候，该属性只读
+```js
+    <button id="btn">按钮</button>
+    <script>
+    var btn = document.getElementById("btn")
+    btn.onclick = function(event){
+        console.log(event.target)
+        event.target.innerHTML = "dj"
+        console.log(event.type) //click
+    }
+    </script>
+```
+--------------
+#### 对象方法
+1. Event.preventDefault()
+2. Event.stopPropagation()
+--------
+##### Event.preventDefault()
+* 取消浏览器对当前事件的默认行为，比如点击链接后，浏览器默认会跳转到另一个页面，使用这个方法以后，就不会跳转了，例如：
+```js
+<a href="https://www.baidu.com" id="bd">baidu</a>
+<script>
+    var bd = document.getElementById("bd")
+    bd.onclick = function(e){ //单击事件
+        e.preventDefault(); //阻止浏览器默认事件
+        console.log("dj") //点击链接后只打印不跳转
+}
+```
+-----------------
+##### Event.stopPropagation()
+* 阻止事件在DOM中继续传播，防止再触发定义在别的节点上的监听函数，但是不包括，在当前节点上其他的事件监听函数，例如：
+```js
+<div id="root" class="root">
+<div id="box" class="box"></div>
+</div>
+<script>
+    var root = document.getElementById("root") // 获取元素
+    var box = document.getElementById("box") 
+    root.onclick = function(){  //单击事件
+        console.log("root")
+    }
+    box.onclick = function(e){ //单击事件
+        e.stopPropagation() //阻止事件冒泡，阻止同时触发box和root的单击事件，只触发box的单击事件
+        console.log("box") 
+}
+</script>
+```
+------------
+### 键盘事件
+* 概念：键盘事件由用户击打键盘触发，主要有keydown、keypress、keyup
+1. keydown：按下键盘时触发
+2. keypress：按下有值的键时触发，即按下Ctrl、Alt、Shift、Meta这样无值的键，这个事件不会触发，对于有值的键，按下时先触发keydown事件，再触发这个事件
+3. keyup：松开键盘时触发改事件
+* e.keycode：返回值所对应的ascll码
+* 代码展示：
+```js
+<input type="text" id="username">
+    <input type="text" id="password">
+    <script>
+        var username = document.getElementById("username")
+        username.onkeydown = function(e){ //键盘按下事件
+            console.log("anxiale")
+        }
+        username.onkeyup = function(e){ //键盘松开事件
+            console.log(e.target.value)
+        }
+        username.onkeypress = function(){ //按下有值键返回
+            console.log("lalala")
+        }
+        var password= document.getElementById("password")
+
+        password.onkeyup = function(e){
+            console.log(e.keyCode) //返回对应值的ascll码
+        }
+    </script>
+```
+----------------
+### 表单事件
+1. input事件：连续触发，用户每按下一次按键，就会触发
+2. select事件：选中文本时触发
+3. change事件：不会连续触发，完成全部修改（离开焦点）才会触发
+4. reset事件：重置表单
+5. submit事件：将数据提交给服务器
+* 代码展示：
+```js
+<input type="text" id="username">
+<input type="text" id="password">
+<script>
+    var username = document.getElementById("username") //获取元素
+    username.oninput = function(e){ //定义事件
+        console.log(e.target.value);   //实时获取用户输入的内容
+    }
+    username.onselect = function(){
+        console.log("lalala"); //选中文本时打印
+    }
+    var password = document.getElementById("password")
+    password.onchange = function(e){
+        console.log(e.target.value) //离开焦点时打印
+    }
+</script>
+```
+```js
+<form id="myForm" onsubmit="submitHandle"> //提交事件写在表单上
+    <input type="text" name="username"> //name为提交内容
+    <button id="resetbtn">清除</button>
+    <button>提交</button>
+</form>    
+<script>
+    var resetbtn = document.getElementById("resetbtn")
+    var myForm = document.getElementById("myForm")
+    resetbtn.onclick = function(){ //单击事件
+        myForm.reset() //清空表单
+    }
+    function submitHandle(){ //定义提交事件
+        console.log("想做的事情");  
+    }
+</script>
+```
+----------------
+### 事件代理（事件委托）
+* 概念：由于事件会在冒泡阶段向上传播到父节点，因此可以把子节点的监听函数定义在父节点上，由父节点的监听函数统一处理多个子元素的事件，这种方法叫做事件的代理（delegation）
+* 代码展示
+```js
+    <ul id="list">
+        <li>列表1</li>
+        <li>列表2</li>
+        <li>列表3</li>
+        <li>列表4</li>
+        <p>哈哈哈</p>
+    </ul>
+<script>
+    var list = document.getElementById("list")
+    list.addEventListener("click",function(e){ //DOM2级事件，单击事件
+        if (e.target.tagName === "LI"){ //判断标签名是不是LI
+            console.log(e.target.innerHTML); //是就答应点击标签自身的内容
+    }
+    })
+```
+* target.tagName：输出元素的标签名**大写显示**
