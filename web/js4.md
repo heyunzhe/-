@@ -416,3 +416,56 @@ var user = {
 ```js
 console.log(Array.of(10,20,30)) //[10,20,30]
 ```
+-------------------------
+### 对象扩展
+#### 属性方法的简洁表示
+* 代码展示：
+```js
+var name = "123";
+var user = {
+    name,
+    age: 18,
+    getName(){
+        console.log(user.name)
+    }
+}
+console.log(user.name) //123
+user.getName() //123
+
+function getPoint(){
+    var a = 100
+    var b = 200
+    return{a,b}
+}
+console.log(getPoint().x,getPoint().y) // 100 200
+```
+--------------
+### 函数的扩展
+#### 箭头函数=>
+* 代码展示：
+```js
+//原本定义函数
+var a = function(x,y){
+    return x + y
+}
+//箭头函数 => 箭头后跟返回值，多行语句用{}括起来写里面，用return返回，跟原本定义函数的方法相同
+//多个参数
+var b = (x,y) => x+y
+//没有参数
+var c = () => 10
+//一个参数
+var d = x => x
+```
+##### 简化匿名函数
+* 代码展示：
+```js
+var a = [10,20,30]
+//一般写法
+a.map(function(b,c){
+    console.log(b)
+})
+//箭头函数
+a.map((b,c)=>{
+    console.log(b)
+})
+```
